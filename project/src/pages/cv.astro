@@ -1,0 +1,506 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<main class="cv-page">
+		<a href="/" class="back-button">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<path d="M19 12H5M12 19l-7-7 7-7"/>
+			</svg>
+			Back to Home
+		</a>
+
+		<div class="page-header">
+			<h1>My Resume</h1>
+			<p class="subtitle">Download or view my CV below</p>
+			<button class="download-button">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+					<polyline points="7 10 12 15 17 10"></polyline>
+					<line x1="12" y1="15" x2="12" y2="3"></line>
+				</svg>
+				Download PDF
+			</button>
+		</div>
+
+		<div class="cv-container">
+			<div class="cv-preview">
+				<div class="cv-header">
+					<div class="cv-profile">
+						<div class="cv-avatar">JP</div>
+						<div class="cv-info">
+							<h2>Jainish Patel</h2>
+							<p>Full Stack Developer & UI/UX Designer</p>
+						</div>
+					</div>
+					<div class="cv-contact">
+						<div class="contact-item">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+								<polyline points="22,6 12,13 2,6"></polyline>
+							</svg>
+							<span>jainish@email.com</span>
+						</div>
+						<div class="contact-item">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+							</svg>
+							<span>+1 (555) 123-4567</span>
+						</div>
+						<div class="contact-item">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+								<circle cx="12" cy="10" r="3"></circle>
+							</svg>
+							<span>San Francisco, CA</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="cv-section">
+					<h3>Professional Summary</h3>
+					<p>
+						Passionate Full Stack Developer with 5+ years of experience building scalable web applications and
+						elegant user interfaces. Specialized in React, Node.js, and modern web technologies. Strong focus
+						on creating seamless user experiences and writing clean, maintainable code.
+					</p>
+				</div>
+
+				<div class="cv-section">
+					<h3>Experience</h3>
+					<div class="experience-item">
+						<div class="experience-header">
+							<div>
+								<h4>Senior Full Stack Developer</h4>
+								<p class="company">Tech Innovation Inc.</p>
+							</div>
+							<span class="date">2021 - Present</span>
+						</div>
+						<ul class="experience-details">
+							<li>Led development of customer-facing web applications serving 100K+ users</li>
+							<li>Architected and implemented RESTful APIs using Node.js and Express</li>
+							<li>Improved application performance by 40% through code optimization</li>
+							<li>Mentored junior developers and conducted code reviews</li>
+						</ul>
+					</div>
+					<div class="experience-item">
+						<div class="experience-header">
+							<div>
+								<h4>Full Stack Developer</h4>
+								<p class="company">Digital Solutions Co.</p>
+							</div>
+							<span class="date">2019 - 2021</span>
+						</div>
+						<ul class="experience-details">
+							<li>Developed responsive web applications using React and TypeScript</li>
+							<li>Implemented CI/CD pipelines reducing deployment time by 60%</li>
+							<li>Collaborated with design team to create intuitive user interfaces</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="cv-section">
+					<h3>Education</h3>
+					<div class="education-item">
+						<div class="experience-header">
+							<div>
+								<h4>Bachelor of Science in Computer Science</h4>
+								<p class="company">University of California</p>
+							</div>
+							<span class="date">2015 - 2019</span>
+						</div>
+						<p class="education-note">GPA: 3.8/4.0 | Dean's List</p>
+					</div>
+				</div>
+
+				<div class="cv-section">
+					<h3>Skills</h3>
+					<div class="skills-grid">
+						<div class="skill-category">
+							<h4>Frontend</h4>
+							<div class="skill-tags">
+								<span>React</span>
+								<span>TypeScript</span>
+								<span>Next.js</span>
+								<span>Vue.js</span>
+								<span>Tailwind CSS</span>
+								<span>HTML5/CSS3</span>
+							</div>
+						</div>
+						<div class="skill-category">
+							<h4>Backend</h4>
+							<div class="skill-tags">
+								<span>Node.js</span>
+								<span>Express</span>
+								<span>PostgreSQL</span>
+								<span>MongoDB</span>
+								<span>GraphQL</span>
+								<span>REST APIs</span>
+							</div>
+						</div>
+						<div class="skill-category">
+							<h4>Tools & Others</h4>
+							<div class="skill-tags">
+								<span>Git</span>
+								<span>Docker</span>
+								<span>AWS</span>
+								<span>CI/CD</span>
+								<span>Figma</span>
+								<span>Agile/Scrum</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="cv-section">
+					<h3>Certifications</h3>
+					<ul class="certifications-list">
+						<li>AWS Certified Developer - Associate</li>
+						<li>Google Professional Cloud Architect</li>
+						<li>MongoDB Certified Developer</li>
+					</ul>
+				</div>
+
+				<div class="cv-footer">
+					<p>References available upon request</p>
+				</div>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.cv-page {
+		min-height: 100vh;
+		background: #f8f9fa;
+		padding: 40px 32px 80px;
+	}
+
+	.back-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 12px 20px;
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		text-decoration: none;
+		color: #1a1a1a;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		margin-bottom: 40px;
+	}
+
+	.back-button svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.back-button:hover {
+		background: #1a1a1a;
+		color: white;
+		transform: translateX(-4px);
+	}
+
+	.page-header {
+		max-width: 900px;
+		margin: 0 auto 40px;
+		text-align: center;
+	}
+
+	.page-header h1 {
+		font-size: 56px;
+		font-weight: 600;
+		margin-bottom: 12px;
+		letter-spacing: -0.02em;
+	}
+
+	.subtitle {
+		font-size: 20px;
+		color: #666;
+		font-weight: 300;
+		margin-bottom: 32px;
+	}
+
+	.download-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		padding: 16px 32px;
+		background: #1a1a1a;
+		color: white;
+		border: none;
+		border-radius: 12px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.download-button svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.download-button:hover {
+		background: #2a2a2a;
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+	}
+
+	.cv-container {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+	.cv-preview {
+		background: white;
+		border-radius: 16px;
+		padding: 60px;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+	}
+
+	.cv-header {
+		margin-bottom: 48px;
+		padding-bottom: 32px;
+		border-bottom: 2px solid #f0f0f0;
+	}
+
+	.cv-profile {
+		display: flex;
+		align-items: center;
+		gap: 24px;
+		margin-bottom: 24px;
+	}
+
+	.cv-avatar {
+		width: 80px;
+		height: 80px;
+		background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+		color: white;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 28px;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+
+	.cv-info h2 {
+		font-size: 32px;
+		font-weight: 700;
+		margin-bottom: 8px;
+	}
+
+	.cv-info p {
+		font-size: 18px;
+		color: #666;
+	}
+
+	.cv-contact {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px;
+	}
+
+	.contact-item {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+		color: #666;
+	}
+
+	.contact-item svg {
+		width: 16px;
+		height: 16px;
+		color: #1a1a1a;
+	}
+
+	.cv-section {
+		margin-bottom: 40px;
+	}
+
+	.cv-section h3 {
+		font-size: 24px;
+		font-weight: 700;
+		margin-bottom: 20px;
+		color: #1a1a1a;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-size: 16px;
+	}
+
+	.cv-section > p {
+		font-size: 16px;
+		line-height: 1.8;
+		color: #4a4a4a;
+	}
+
+	.experience-item {
+		margin-bottom: 32px;
+	}
+
+	.experience-item:last-child {
+		margin-bottom: 0;
+	}
+
+	.experience-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 12px;
+	}
+
+	.experience-header h4 {
+		font-size: 20px;
+		font-weight: 600;
+		margin-bottom: 4px;
+		color: #1a1a1a;
+	}
+
+	.company {
+		font-size: 16px;
+		color: #666;
+		font-weight: 500;
+	}
+
+	.date {
+		font-size: 14px;
+		color: #888;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	.experience-details {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	.experience-details li {
+		font-size: 15px;
+		line-height: 1.7;
+		color: #4a4a4a;
+		margin-bottom: 8px;
+		padding-left: 24px;
+		position: relative;
+	}
+
+	.experience-details li::before {
+		content: '•';
+		position: absolute;
+		left: 8px;
+		color: #1a1a1a;
+		font-weight: bold;
+	}
+
+	.education-item {
+		margin-bottom: 24px;
+	}
+
+	.education-note {
+		font-size: 14px;
+		color: #666;
+		margin-top: 8px;
+	}
+
+	.skills-grid {
+		display: grid;
+		gap: 24px;
+	}
+
+	.skill-category h4 {
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 12px;
+		color: #1a1a1a;
+	}
+
+	.skill-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.skill-tags span {
+		padding: 8px 16px;
+		background: #f0f0f0;
+		border-radius: 20px;
+		font-size: 14px;
+		font-weight: 500;
+		color: #1a1a1a;
+	}
+
+	.certifications-list {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	.certifications-list li {
+		font-size: 15px;
+		line-height: 1.8;
+		color: #4a4a4a;
+		padding-left: 24px;
+		position: relative;
+	}
+
+	.certifications-list li::before {
+		content: '✓';
+		position: absolute;
+		left: 0;
+		color: #10b981;
+		font-weight: bold;
+	}
+
+	.cv-footer {
+		margin-top: 48px;
+		padding-top: 24px;
+		border-top: 2px solid #f0f0f0;
+		text-align: center;
+	}
+
+	.cv-footer p {
+		font-size: 14px;
+		color: #888;
+		font-style: italic;
+	}
+
+	@media (max-width: 768px) {
+		.cv-page {
+			padding: 32px 24px 60px;
+		}
+
+		.page-header h1 {
+			font-size: 40px;
+		}
+
+		.cv-preview {
+			padding: 40px 32px;
+		}
+
+		.cv-profile {
+			flex-direction: column;
+			text-align: center;
+		}
+
+		.cv-info h2 {
+			font-size: 28px;
+		}
+
+		.cv-contact {
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.experience-header {
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		.date {
+			align-self: flex-start;
+		}
+	}
+</style>

@@ -1,0 +1,463 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<main class="contact-page">
+		<a href="/" class="back-button">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<path d="M19 12H5M12 19l-7-7 7-7"/>
+			</svg>
+			Back to Home
+		</a>
+
+		<div class="page-header">
+			<h1>Get In Touch</h1>
+			<p class="subtitle">Let's connect and create something amazing together</p>
+		</div>
+
+		<div class="contact-container">
+			<div class="contact-content">
+				<div class="contact-info">
+					<div class="info-card">
+						<div class="info-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+								<polyline points="22,6 12,13 2,6"></polyline>
+							</svg>
+						</div>
+						<h3>Email</h3>
+						<a href="mailto:jainish@email.com" class="contact-link">jainish@email.com</a>
+					</div>
+
+					<div class="info-card">
+						<div class="info-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+							</svg>
+						</div>
+						<h3>Phone</h3>
+						<a href="tel:+15551234567" class="contact-link">+1 (555) 123-4567</a>
+					</div>
+
+					<div class="info-card">
+						<div class="info-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+								<circle cx="12" cy="10" r="3"></circle>
+							</svg>
+						</div>
+						<h3>Location</h3>
+						<p class="contact-text">San Francisco, CA</p>
+					</div>
+
+					<div class="social-links">
+						<h3>Connect With Me</h3>
+						<div class="social-grid">
+							<a href="https://github.com" target="_blank" rel="noopener" class="social-button">
+								<svg viewBox="0 0 24 24" fill="currentColor">
+									<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+								</svg>
+								GitHub
+							</a>
+							<a href="https://linkedin.com" target="_blank" rel="noopener" class="social-button">
+								<svg viewBox="0 0 24 24" fill="currentColor">
+									<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+								</svg>
+								LinkedIn
+							</a>
+							<a href="https://twitter.com" target="_blank" rel="noopener" class="social-button">
+								<svg viewBox="0 0 24 24" fill="currentColor">
+									<path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+								</svg>
+								Twitter
+							</a>
+							<a href="https://dribbble.com" target="_blank" rel="noopener" class="social-button">
+								<svg viewBox="0 0 24 24" fill="currentColor">
+									<path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.285zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/>
+								</svg>
+								Dribbble
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="contact-form-wrapper">
+					<div class="form-header">
+						<h2>Send Me a Message</h2>
+						<p>Fill out the form below and I'll get back to you as soon as possible</p>
+					</div>
+					<form class="contact-form" action="mailto:jainish@email.com" method="GET">
+						<div class="form-group">
+							<label for="name">Your Name</label>
+							<input type="text" id="name" name="name" required placeholder="John Doe" />
+						</div>
+
+						<div class="form-group">
+							<label for="email">Your Email</label>
+							<input type="email" id="email" name="email" required placeholder="john@example.com" />
+						</div>
+
+						<div class="form-group">
+							<label for="subject">Subject</label>
+							<input type="text" id="subject" name="subject" required placeholder="Let's work together" />
+						</div>
+
+						<div class="form-group">
+							<label for="message">Message</label>
+							<textarea id="message" name="body" rows="6" required placeholder="Tell me about your project..."></textarea>
+						</div>
+
+						<button type="submit" class="submit-button">
+							<span>Send Message</span>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="22" y1="2" x2="11" y2="13"></line>
+								<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+							</svg>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="availability-banner">
+			<div class="banner-content">
+				<span class="status-dot"></span>
+				<p>Currently available for freelance projects and collaborations</p>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.contact-page {
+		min-height: 100vh;
+		background: #f8f9fa;
+		padding: 40px 32px 80px;
+	}
+
+	.back-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 12px 20px;
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		text-decoration: none;
+		color: #1a1a1a;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		margin-bottom: 40px;
+	}
+
+	.back-button svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.back-button:hover {
+		background: #1a1a1a;
+		color: white;
+		transform: translateX(-4px);
+	}
+
+	.page-header {
+		max-width: 1200px;
+		margin: 0 auto 60px;
+		text-align: center;
+	}
+
+	.page-header h1 {
+		font-size: 56px;
+		font-weight: 600;
+		margin-bottom: 12px;
+		letter-spacing: -0.02em;
+	}
+
+	.subtitle {
+		font-size: 20px;
+		color: #666;
+		font-weight: 300;
+	}
+
+	.contact-container {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.contact-content {
+		display: grid;
+		grid-template-columns: 1fr 1.5fr;
+		gap: 40px;
+	}
+
+	.contact-info {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.info-card {
+		background: white;
+		padding: 32px;
+		border-radius: 20px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		transition: all 0.3s ease;
+	}
+
+	.info-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+	}
+
+	.info-icon {
+		width: 56px;
+		height: 56px;
+		background: #1a1a1a;
+		border-radius: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+
+	.info-icon svg {
+		width: 24px;
+		height: 24px;
+		color: white;
+	}
+
+	.info-card h3 {
+		font-size: 18px;
+		font-weight: 600;
+		margin-bottom: 12px;
+		color: #1a1a1a;
+	}
+
+	.contact-link {
+		color: #666;
+		text-decoration: none;
+		font-size: 16px;
+		transition: color 0.3s ease;
+	}
+
+	.contact-link:hover {
+		color: #1a1a1a;
+	}
+
+	.contact-text {
+		color: #666;
+		font-size: 16px;
+	}
+
+	.social-links {
+		background: white;
+		padding: 32px;
+		border-radius: 20px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.social-links h3 {
+		font-size: 18px;
+		font-weight: 600;
+		margin-bottom: 20px;
+		color: #1a1a1a;
+	}
+
+	.social-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+	}
+
+	.social-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		padding: 12px 16px;
+		background: #f8f9fa;
+		border-radius: 12px;
+		text-decoration: none;
+		color: #1a1a1a;
+		font-size: 14px;
+		font-weight: 500;
+		transition: all 0.3s ease;
+	}
+
+	.social-button svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	.social-button:hover {
+		background: #1a1a1a;
+		color: white;
+		transform: translateY(-2px);
+	}
+
+	.contact-form-wrapper {
+		background: white;
+		padding: 48px;
+		border-radius: 20px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.form-header {
+		margin-bottom: 36px;
+	}
+
+	.form-header h2 {
+		font-size: 32px;
+		font-weight: 600;
+		margin-bottom: 8px;
+		color: #1a1a1a;
+	}
+
+	.form-header p {
+		font-size: 16px;
+		color: #666;
+	}
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.form-group label {
+		font-size: 14px;
+		font-weight: 600;
+		color: #1a1a1a;
+	}
+
+	.form-group input,
+	.form-group textarea {
+		padding: 14px 18px;
+		border: 2px solid #e5e7eb;
+		border-radius: 12px;
+		font-size: 16px;
+		font-family: inherit;
+		transition: all 0.3s ease;
+		background: #f8f9fa;
+	}
+
+	.form-group input:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: #1a1a1a;
+		background: white;
+	}
+
+	.form-group textarea {
+		resize: vertical;
+		min-height: 120px;
+	}
+
+	.submit-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		padding: 16px 32px;
+		background: #1a1a1a;
+		color: white;
+		border: none;
+		border-radius: 12px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		margin-top: 8px;
+	}
+
+	.submit-button svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.submit-button:hover {
+		background: #2a2a2a;
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+	}
+
+	.availability-banner {
+		max-width: 1200px;
+		margin: 60px auto 0;
+		background: white;
+		border-radius: 20px;
+		padding: 32px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.banner-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+	}
+
+	.status-dot {
+		width: 12px;
+		height: 12px;
+		background: #10b981;
+		border-radius: 50%;
+		animation: pulse 2s infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% {
+			box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+		}
+		50% {
+			box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+		}
+	}
+
+	.banner-content p {
+		font-size: 16px;
+		color: #4a4a4a;
+		font-weight: 500;
+		margin: 0;
+	}
+
+	@media (max-width: 1024px) {
+		.contact-content {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.contact-page {
+			padding: 32px 24px 60px;
+		}
+
+		.page-header h1 {
+			font-size: 40px;
+		}
+
+		.contact-form-wrapper {
+			padding: 32px 24px;
+		}
+
+		.social-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.form-header h2 {
+			font-size: 28px;
+		}
+	}
+</style>
