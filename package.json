@@ -5,7 +5,7 @@
   "description": "Jainish Patel — personal research studio, portfolio and publication.",
   "type": "module",
   "engines": {
-    "node": ">=20.9"
+    "node": ">=22.12"
   },
   "scripts": {
     "dev": "next dev",
