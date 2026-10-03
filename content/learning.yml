@@ -1,0 +1,13 @@
+# Currently learning. progress is a number from 0 to 100.
+- topic: Reinforcement Learning
+  note: Bandits → MDPs → policy gradients
+  progress: 45
+- topic: fMRI Analysis
+  note: From structural to functional imaging
+  progress: 25
+- topic: Agentic AI
+  note: Tool use, planning and evaluation
+  progress: 55
+- topic: WebGL
+  note: Shaders and instanced rendering
+  progress: 40

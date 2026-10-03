@@ -1,10 +1,9 @@
 import type { MetadataRoute } from "next";
-import { env } from "@/lib/env";
+import { getContent } from "@/lib/store/load";
+
+export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/", "/bookmarks", "/search"] }],
-    sitemap: `${env.siteUrl}/sitemap.xml`,
-    host: env.siteUrl,
-  };
+  const base = getContent().site.url.replace(/\/$/, "");
+  return { rules: [{ userAgent: "*", allow: "/", disallow: ["/bookmarks/", "/search/"] }], sitemap: `${base}/sitemap.xml`, host: base };
 }

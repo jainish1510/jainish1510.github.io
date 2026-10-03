@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Markdown } from "@/components/content/markdown";
@@ -11,17 +10,22 @@ import { Cover } from "@/components/portfolio/cover";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/primitives";
 import { createEmbed } from "@/lib/content/embeds";
-import { getAdjacentProjects, getProject } from "@/lib/repositories/portfolio";
+import { getAdjacentProjects, getProject, listProjectSlugs } from "@/lib/repositories/portfolio";
 import { breadcrumbSchema, JsonLd } from "@/lib/seo";
+import { getSite } from "@/lib/site";
 import { formatRange } from "@/lib/utils";
 
-export const revalidate = 60;
+export const dynamicParams = false;
 type Props = { params: Promise<{ slug: string }> };
 
+export function generateStaticParams() {
+  return listProjectSlugs().map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = await getProject((await params).slug);
+  const project = getProject((await params).slug);
   if (!project) return { title: "Project not found" };
-  return { title: project.title, description: project.summary, alternates: { canonical: `/projects/${project.slug}` }, openGraph: { title: project.title, description: project.summary } };
+  return { title: project.title, description: project.summary, alternates: { canonical: `/projects/${project.slug}/` }, openGraph: { title: project.title, description: project.summary } };
 }
 
 const SECTIONS = [
@@ -36,18 +40,19 @@ const SECTIONS = [
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const project = getProject(slug);
   if (!project) notFound();
-  const adjacent = await getAdjacentProjects(slug);
+  const site = getSite();
+  const adjacent = getAdjacentProjects(slug);
   const video = project.videoUrl ? createEmbed(project.videoUrl, `${project.title} demo`) : null;
   const sections = SECTIONS.filter(([key]) => project[key]);
 
   return (
     <article className="pt-28 md:pt-36">
-      <JsonLd data={breadcrumbSchema([{ name: "Projects", path: "/projects" }, { name: project.title, path: `/projects/${project.slug}` }])} />
+      <JsonLd data={breadcrumbSchema(site, [{ name: "Projects", path: "/projects/" }, { name: project.title, path: `/projects/${project.slug}/` }])} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "CreativeWork", name: project.title, description: project.summary, keywords: project.skills.map((s) => s.name).join(", ") }} />
       <div className="container-page">
-        <Link href="/projects" className="eyebrow inline-flex items-center gap-2 hover:!text-fg">
+        <Link href="/projects/" className="eyebrow inline-flex items-center gap-2 hover:!text-fg">
           <ArrowLeft className="size-3" /> All projects
         </Link>
         <header className="mt-10 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end">
@@ -136,8 +141,9 @@ export default async function ProjectPage({ params }: Props) {
               <p className="eyebrow mb-5">Gallery</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {project.gallery.map((m) => (
-                  <figure key={m.id} className="overflow-hidden rounded-xl border border-line">
-                    <Image src={m.path} alt={m.alt} width={m.width ?? 1200} height={m.height ?? 800} sizes="(min-width: 768px) 50vw, 100vw" className="h-auto w-full" />
+                  <figure key={m.path} className="overflow-hidden rounded-xl border border-line">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={m.path} alt={m.alt} loading="lazy" className="h-auto w-full" />
                     {m.caption ? <figcaption className="px-3 py-2 text-xs text-muted">{m.caption}</figcaption> : null}
                   </figure>
                 ))}
@@ -154,7 +160,7 @@ export default async function ProjectPage({ params }: Props) {
             <section>
               <p className="eyebrow mb-4">Related research</p>
               {project.research.map((r) => (
-                <Link key={r.slug} href={`/research/${r.slug}`} className="flex items-center justify-between border-t border-line py-4 text-fg hover:text-accent-strong">
+                <Link key={r.slug} href={`/research/${r.slug}/`} className="flex items-center justify-between border-t border-line py-4 text-fg hover:text-accent-strong">
                   {r.title} <ArrowRight className="size-4" />
                 </Link>
               ))}
@@ -165,7 +171,7 @@ export default async function ProjectPage({ params }: Props) {
 
       <nav aria-label="More projects" className="container-page mt-24 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
         {adjacent.previous ? (
-          <Link href={`/projects/${adjacent.previous.slug}`} className="group">
+          <Link href={`/projects/${adjacent.previous.slug}/`} className="group">
             <p className="eyebrow">← Previous</p>
             <p className="mt-2 text-xl tracking-tight text-fg group-hover:text-accent-strong">{adjacent.previous.title}</p>
           </Link>
@@ -173,7 +179,7 @@ export default async function ProjectPage({ params }: Props) {
           <span />
         )}
         {adjacent.next ? (
-          <Link href={`/projects/${adjacent.next.slug}`} className="group text-right">
+          <Link href={`/projects/${adjacent.next.slug}/`} className="group text-right">
             <p className="eyebrow">Next →</p>
             <p className="mt-2 text-xl tracking-tight text-fg group-hover:text-accent-strong">{adjacent.next.title}</p>
           </Link>

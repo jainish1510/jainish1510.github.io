@@ -1,0 +1,59 @@
+# Work, internships, research roles and leadership, newest first.
+# type: work | internship | research | leadership
+- role: Research Intern
+  organization: Vanderbilt Institute for Surgery and Engineering (VISE)
+  location: Nashville, TN
+  type: research
+  startDate: 2025-06-01
+  endDate: 2025-08-31
+  period: Summer 2025
+  summary: Medical imaging research on multicenter brain MRI.
+  highlights:
+    - Built automated MRI analysis pipelines for 5K+ scans to evaluate cross-site variability in brain volume.
+    - Integrated environmental data (air quality, weather) with MRI datasets using Python and scikit-learn.
+    - Enhanced reproducibility of multicenter studies by 22% via data harmonisation and statistical modelling.
+  skills:
+    - python
+    - scikit-learn
+    - mri-analysis
+    - statistical-modelling
+- role: AI R&D Engineer
+  organization: Bill Summary API Project, MTSU
+  location: Murfreesboro, TN
+  type: work
+  startDate: 2025-01-01
+  endDate: 2025-05-31
+  period: Jan — May 2025
+  summary: Transformer-based summarisation of legislation.
+  highlights:
+    - Fine-tuned T5-small transformer models for legislative summarisation, improving ROUGE scores by 21%.
+    - Processed 2M+ tokens across datasets; deployed a real-time API with <1.5s latency.
+  skills:
+    - python
+    - hugging-face
+    - fastapi
+- role: Artificial Intelligence Intern
+  organization: MindWise Health
+  type: internship
+  startDate: 2024-06-01
+  endDate: 2024-07-31
+  period: Jun — Jul 2024
+  summary: Retrieval-augmented assistants for healthcare.
+  highlights:
+    - Developed a RAG chatbot with MongoDB vector search and LangChain, increasing response accuracy by 18%.
+    - Proposed an EHR-driven AI analytics pipeline for predictive healthcare management, adopted for pilot testing.
+  skills:
+    - python
+    - langchain
+    - mongodb
+- role: Vice President
+  organization: ACM MTSU
+  location: Murfreesboro, TN
+  type: leadership
+  startDate: 2023-01-01
+  endDate: 2025-12-31
+  period: 2023 — 2025
+  summary: Student chapter of the Association for Computing Machinery.
+  highlights:
+    - Directed 10+ workshops and MTSU's first coding competition (30+ participants).
+    - Mentored peers in ML modelling, cloud deployment and software engineering.

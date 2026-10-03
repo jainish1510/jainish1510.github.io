@@ -9,7 +9,7 @@ import { StudioMark } from "@/components/brand/icons";
 import { emitUI, UI_EVENTS } from "@/components/interaction/events";
 import { useTheme } from "@/components/interaction/theme";
 import { Kbd } from "@/components/ui/primitives";
-import type { NavItem } from "@/lib/settings";
+type NavItem = { label: string; href: string };
 import { cn } from "@/lib/utils";
 
 export function SiteHeader({ name, nav }: { name: string; nav: NavItem[] }) {

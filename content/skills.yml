@@ -1,0 +1,210 @@
+# Technologies. category: languages | frameworks | ml | cloud | databases | infrastructure | research | tools
+# `favorite: true` shows the tool in the About page orbit. `areas` link it to the research map.
+- slug: aws
+  name: AWS
+  category: cloud
+  proficiency: 3
+  usedFor:
+    - Deployment
+    - Quantum (Braket)
+  areas:
+    - cloud-and-systems
+    - quantum-information
+- slug: amazon-braket
+  name: Amazon Braket
+  category: cloud
+  proficiency: 2
+  usedFor:
+    - Quantum circuit simulation
+  areas:
+    - quantum-information
+- slug: mongodb
+  name: MongoDB
+  category: databases
+  proficiency: 3
+  usedFor:
+    - Vector search
+    - Document storage
+  areas:
+    - ai-systems
+- slug: postgresql
+  name: PostgreSQL
+  category: databases
+  proficiency: 3
+  usedFor:
+    - Relational data
+- slug: sqlite
+  name: SQLite
+  category: databases
+  proficiency: 4
+  usedFor:
+    - Local-first apps
+    - This site
+- slug: next-js
+  name: Next.js
+  category: frameworks
+  proficiency: 4
+  usedFor:
+    - Full-stack web apps
+    - This site
+  favorite: true
+- slug: fastapi
+  name: FastAPI
+  category: frameworks
+  proficiency: 4
+  usedFor:
+    - ML model APIs
+  areas:
+    - ai-systems
+- slug: node-js
+  name: Node.js
+  category: frameworks
+  proficiency: 3
+  usedFor:
+    - Backend services
+- slug: three-js
+  name: Three.js
+  category: frameworks
+  proficiency: 3
+  usedFor:
+    - WebGL visualization
+- slug: docker
+  name: Docker
+  category: infrastructure
+  proficiency: 4
+  usedFor:
+    - Reproducible environments
+  areas:
+    - cloud-and-systems
+  favorite: true
+- slug: python
+  name: Python
+  category: languages
+  proficiency: 5
+  usedFor:
+    - ML research
+    - Data analysis
+    - Backend systems
+  areas:
+    - machine-learning
+    - data-mining
+  favorite: true
+- slug: typescript
+  name: TypeScript
+  category: languages
+  proficiency: 4
+  usedFor:
+    - Web applications
+    - Interactive visualizations
+  favorite: true
+- slug: c
+  name: C++
+  category: languages
+  proficiency: 3
+  usedFor:
+    - Algorithms
+    - Systems coursework
+- slug: sql
+  name: SQL
+  category: languages
+  proficiency: 4
+  usedFor:
+    - Analytics
+    - Application data
+- slug: r
+  name: R
+  category: languages
+  proficiency: 3
+  usedFor:
+    - Statistical analysis
+- slug: pytorch
+  name: PyTorch
+  category: ml
+  proficiency: 4
+  usedFor:
+    - Model training
+    - Research prototypes
+  areas:
+    - machine-learning
+    - generative-models
+  favorite: true
+- slug: tensorflow
+  name: TensorFlow
+  category: ml
+  proficiency: 3
+  usedFor:
+    - Model training
+  areas:
+    - machine-learning
+- slug: scikit-learn
+  name: scikit-learn
+  category: ml
+  proficiency: 4
+  usedFor:
+    - Classical ML
+    - Statistical modelling
+  areas:
+    - pattern-recognition
+    - data-mining
+    - medical-imaging
+- slug: hugging-face
+  name: Hugging Face
+  category: ml
+  proficiency: 4
+  usedFor:
+    - Transformer fine-tuning
+  areas:
+    - natural-language-processing
+- slug: langchain
+  name: LangChain
+  category: ml
+  proficiency: 3
+  usedFor:
+    - Retrieval-augmented generation
+  areas:
+    - ai-systems
+- slug: llamaindex
+  name: LlamaIndex
+  category: ml
+  proficiency: 3
+  usedFor:
+    - Retrieval pipelines
+  areas:
+    - ai-systems
+- slug: mri-analysis
+  name: MRI analysis
+  category: research
+  proficiency: 3
+  usedFor:
+    - Brain volume pipelines
+  areas:
+    - medical-imaging
+- slug: statistical-modelling
+  name: Statistical modelling
+  category: research
+  proficiency: 3
+  usedFor:
+    - Harmonisation
+    - Experiment analysis
+  areas:
+    - medical-imaging
+    - uncertainty
+- slug: git
+  name: Git
+  category: tools
+  proficiency: 5
+  usedFor:
+    - Everything
+  favorite: true
+- slug: tableau
+  name: Tableau
+  category: tools
+  proficiency: 3
+  usedFor:
+    - Dashboards
+- slug: power-bi
+  name: Power BI
+  category: tools
+  proficiency: 3
+  usedFor:
+    - Reporting

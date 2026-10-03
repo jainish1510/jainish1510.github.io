@@ -1,497 +1,570 @@
 # Jainish Patel — Research Studio
 
-A personal website that is three things at once:
+A personal website: portfolio, research lab, interactive biography and a blog. It is a **static website**, which means it is just a folder of ready-made pages. That is why it can be hosted **for free on GitHub Pages**, with no server, no database and nothing to keep running.
 
-1. **A portfolio**: your projects, research, experience and story.
-2. **A publication**: a real blog where readers can like, save, share and comment.
-3. **A control room** (`/admin`): where you write posts and edit everything on the site, **without touching any code**.
+**How you update it:** you edit simple text files in this repository (a blog post is one file). When you save your change on GitHub, GitHub rebuilds the site and publishes it automatically, usually in about two minutes.
 
-Everything runs on your own computer with a small built-in database. You don't need to sign up for any online service, and you don't need to be a programmer to run it.
-
-> **In one sentence:** install Node.js once, double-click `start.bat` (Windows) or `start.command` (Mac), and the site opens in your browser.
+> **In one sentence:** write or change a text file on github.com, click **Commit**, and your website updates itself.
 
 ---
 
 ## Contents
 
-1. [What you need](#1-what-you-need)
-2. [Step-by-step setup (first time only)](#2-step-by-step-setup-first-time-only)
-3. [Starting and stopping the site every day](#3-starting-and-stopping-the-site-every-day)
-4. [Your first ten minutes in the admin](#4-your-first-ten-minutes-in-the-admin)
-5. [Making the site yours](#5-making-the-site-yours)
-6. [Backing up your work](#6-backing-up-your-work)
-7. [Troubleshooting](#7-troubleshooting)
-8. [Optional extras: GitHub and Spotify](#8-optional-extras-github-and-spotify)
-9. [Putting the site on the internet](#9-putting-the-site-on-the-internet)
-10. [Glossary](#10-glossary)
-11. [Technical reference (for developers)](#11-technical-reference-for-developers)
+1. [How it works](#1-how-it-works)
+2. [One-time setup: turn the website on](#2-one-time-setup-turn-the-website-on)
+3. [Everyday editing in the browser (no installs)](#3-everyday-editing-in-the-browser-no-installs)
+4. [Writing a blog post](#4-writing-a-blog-post)
+5. [Pictures and videos](#5-pictures-and-videos)
+6. [Editing the rest of the site](#6-editing-the-rest-of-the-site)
+7. [Replace the placeholders](#7-replace-the-placeholders)
+8. [Previewing on your own computer (optional)](#8-previewing-on-your-own-computer-optional)
+9. [Optional extras](#9-optional-extras)
+10. [Troubleshooting](#10-troubleshooting)
+11. [What changed from the earlier version](#11-what-changed-from-the-earlier-version)
+12. [Glossary](#12-glossary)
+13. [Technical reference (for developers)](#13-technical-reference-for-developers)
 
 ---
 
-## 1. What you need
+## 1. How it works
 
-| You need | Why | Cost |
+```
+ you edit a text file on github.com
+              │  click "Commit"
+              ▼
+ GitHub Actions (free robot) checks your content, builds the site
+              │  about 2 minutes
+              ▼
+ https://jainish1510.github.io  is updated
+```
+
+- **Your content lives in the `content` folder**: posts, projects, research, your bio, links. All plain text.
+- **Your images live in `public/media`.**
+- **Nothing else needs touching.** The design and code are in `src`, and you never have to open it.
+- **The robot protects you.** If you make a typo in a content file, the robot refuses to publish and tells you exactly which file and line to fix. The old version of your site stays live in the meantime. A typo can't break your website.
+
+---
+
+## 2. One-time setup: turn the website on
+
+You only do this once. You need a free GitHub account that owns this repository.
+
+**Step 1: Get the new site onto the `main` branch.**
+The new version is in a *pull request* (a proposed change). Open the repository on github.com, click the **Pull requests** tab, open the one that adds the static site, scroll down and click **Merge pull request**, then **Confirm merge**.
+
+**Step 2: Tell GitHub to publish with Actions.**
+1. In the repository, click **Settings** (the gear tab at the top).
+2. In the left menu, click **Pages**.
+3. Under **Build and deployment → Source**, choose **GitHub Actions**. (It may currently say *Deploy from a branch*. Change it.)
+
+**Step 3: Wait for the first publish.**
+1. Click the **Actions** tab. You'll see a job named **Deploy to GitHub Pages** running (yellow dot). It takes 2–4 minutes.
+2. When it shows a green tick, your site is live at **https://jainish1510.github.io**.
+
+If it shows a red cross, click it and open the failed step. The message says which content file has a problem (see [Troubleshooting](#10-troubleshooting)).
+
+That's it. From now on, every change you commit to `main` is published automatically.
+
+---
+
+## 3. Everyday editing in the browser (no installs)
+
+You can do everything from github.com, even on a phone or a library computer.
+
+**To change an existing file**
+1. Go to the repository's main page and click into the folder (for example `content` → `posts`).
+2. Click the file you want, then click the **pencil icon** (✏️ *Edit this file*) at the top right.
+3. Make your change.
+4. Click the green **Commit changes…** button, then **Commit changes** again in the box that appears.
+5. Wait about 2 minutes, then refresh your website. (Check the **Actions** tab if you want to watch it.)
+
+**To add a new file**
+1. Open the folder where it belongs (for example `content/posts`).
+2. Click **Add file → Create new file**.
+3. Type the file name at the top (for example `my-first-post.md`), paste or type the content, and click **Commit changes…**.
+
+**To upload pictures**
+1. Open the folder (for example `public/media/blog`).
+2. Click **Add file → Upload files**, drag your pictures in, and click **Commit changes**.
+
+**To undo a mistake:** open the file, click **History**, find an earlier version, and copy its text back. GitHub keeps every version forever, so nothing is ever really lost.
+
+---
+
+## 4. Writing a blog post
+
+Each post is **one file** in `content/posts/`. The file name becomes the web address: `content/posts/my-first-post.md` appears at `…/blog/my-first-post/`.
+
+**File names must be lowercase words joined with hyphens**, with no spaces or capitals, and end in `.md`.
+
+### The easiest way: copy a template
+
+Create a new file in `content/posts/`, for example `what-i-learned-this-week.md`, and paste this:
+
+```markdown
+---
+title: What I learned this week
+subtitle: One line that makes people want to read it
+date: 2026-10-15
+status: published
+category: notes
+tags:
+  - Learning
+  - Research
+---
+
+Write your post here. This is a normal paragraph.
+
+## A heading
+
+Text with **bold**, *italic* and a [link](https://example.com).
+
+- a list
+- of things
+```
+
+The block at the top, between the two lines of `---`, holds the post's settings. Everything below it is the post itself.
+
+### The settings at the top
+
+| Setting | Required? | What it does |
 | --- | --- | --- |
-| A Windows, Mac or Linux computer | It runs the site | — |
-| **Node.js, version 22.12 or newer** | The engine that runs the site | Free |
-| An internet connection (first time only) | To download the site's building blocks | — |
-| About 1.5 GB of free disk space and about 10 minutes | The downloaded building blocks are large | — |
+| `title` | yes | The headline |
+| `subtitle` | no | A line under the headline |
+| `date` | yes (for published posts) | Written `YYYY-MM-DD`. Posts dated in the future stay hidden until that day. |
+| `status` | no | `published` (default), `draft` (hidden), or `archived` (hidden) |
+| `category` | no | One of the names in `content/categories.yml` (currently `research-notes`, `building`, `essays`) |
+| `tags` | no | A list of topics, each on its own line starting with a dash |
+| `featured` | no | `true` puts it in the big spot on the blog page |
+| `cover` | no | A picture, e.g. `/media/blog/my-cover.png` (see [Pictures](#5-pictures-and-videos)). Without one, a pretty generated cover is used. |
+| `coverAlt` | no | A short description of the cover for screen-reader users |
+| `excerpt` | no | A short summary. If you leave it out, one is made from the first paragraph. |
+| `areas` | no | Links the post to the research map, e.g. `[machine-learning, uncertainty]` (see `content/areas.yml`) |
+| `demo` | no | `true` shows a "demonstration content" label |
+| `seoTitle`, `seoDescription` | no | What Google shows, if different from the title and summary |
 
-You do **not** need Git, a database, an account anywhere, or any programming knowledge.
+### Drafts and scheduling
+- **Keep it private while you write:** set `status: draft`. It won't appear anywhere on the site.
+- **Publish it:** change to `status: published` and commit.
+- **Schedule it:** set `status: published` and a future `date`. The site rebuilds every morning, so it appears on that date automatically.
+
+### Formatting cheat sheet (Markdown)
+
+| You type | You get |
+| --- | --- |
+| `## Heading` and `### Smaller heading` | Headings. The table of contents is built from these. |
+| `**bold**` and `*italic*` and `++underline++` | **bold**, *italic*, underline |
+| `` `code` `` | `inline code` |
+| `[text](https://address)` | A link |
+| `- item` or `1. item` | Bulleted or numbered list |
+| `> a quote` | A quotation |
+| `---` | A divider line |
+| A table, written with `\|` and `---` | A table (see below) |
+
+```markdown
+| Name | Score |
+| --- | --- |
+| Alice | 10 |
+| Bob | 12 |
+```
+
+### Special blocks
+
+**Maths** (LaTeX): `$E = mc^2$` inline, or on its own lines:
+
+```
+$$
+\int_0^1 x \, dx = \tfrac{1}{2}
+$$
+```
+
+**Code with colours and a copy button:**
+
+````
+```python
+print("hello")
+```
+````
+
+**Diagrams** (Mermaid):
+
+````
+```mermaid
+flowchart LR
+  Idea --> Prototype --> Result
+```
+````
+
+**Video from YouTube / Vimeo / CodePen:**
+
+```
+::youtube[A caption]{id="aircAruvnKk"}
+::embed[A caption]{url="https://codepen.io/user/pen/abc"}
+```
+
+(For YouTube, the `id` is the part after `v=` in the video's address.)
+
+**A video file you uploaded:** `::video[A caption]{src="/media/blog/clip.mp4"}`
+
+**A highlighted note:**
+
+```
+:::callout{kind="tip" title="Good to know"}
+Kinds you can use: note, tip, warning.
+:::
+```
+
+**An image gallery:**
+
+```
+:::gallery
+![First](/media/blog/one.png)
+![Second](/media/blog/two.png)
+:::
+```
+
+**Interactive figures** (sliders and simulations) that come with the site:
+
+```
+::component[A caption]{name="gaussian-explorer"}
+```
+
+Available names: `gaussian-explorer`, `sorting-visualizer`, `line-chart`, `uncertainty-sim`. Open the sample posts in `content/posts` to see each one in use.
 
 ---
 
-## 2. Step-by-step setup (first time only)
+## 5. Pictures and videos
 
-### Step 1 — Install Node.js
+1. Upload the file into a folder under `public/media/`, for example `public/media/blog/`. See [Everyday editing](#3-everyday-editing-in-the-browser-no-installs).
+2. Refer to it **without** the `public` part: a file at `public/media/blog/my-cover.png` is written `/media/blog/my-cover.png`.
 
-1. Go to **https://nodejs.org**.
-2. Click the big green button labelled **LTS** (it says "Recommended for most users"). The version number must be **22 or higher**.
-3. Open the file you downloaded and click **Next** through the installer. Keep all the default choices.
-4. **Restart your computer**, or at least close every terminal window. A terminal that was already open will not notice the new Node.js.
+In a post, show an image with `![Describe the picture](/media/blog/my-picture.png "Optional caption")`. Always describe the picture in the square brackets. It helps people using screen readers, and Google.
 
-**Check that it worked.** Open a terminal:
-- **Windows:** press the Windows key, type `cmd`, press Enter.
-- **Mac:** press `⌘ Space`, type `Terminal`, press Enter.
+**Tips**
+- Use **PNG, JPEG, WebP, GIF, AVIF** (images) or **MP4, WebM** (video).
+- **Keep files small.** Resize photos to about 1600 pixels wide before uploading. Free sites like squoosh.app do this in your browser. GitHub Pages allows about 1 GB in total, so avoid large videos. Link a YouTube video instead.
+- **Spelling and capitals matter.** `Photo.PNG` and `photo.png` are different files on GitHub. If an image doesn't show, this is the usual reason.
+- If you point at a picture that doesn't exist, the robot tells you and refuses to publish until you fix it.
 
-Type this and press Enter:
+---
 
+## 6. Editing the rest of the site
+
+Everything is in the `content` folder. Each file starts with a comment (lines beginning with `#`) explaining what it holds.
+
+| To change… | Edit this file |
+| --- | --- |
+| Your name, headline, intro line, email, location, menu links, footer, the About-page story | `content/site.yml` |
+| The "Currently…" box on the home page | `content/now.yml` |
+| Your journey timeline | `content/timeline.yml` |
+| Jobs, internships, research roles | `content/experience.yml` |
+| Degrees | `content/education.yml` |
+| Awards and recognition | `content/awards.yml` |
+| Skills and tools (also the technology map and favourite-tools orbit) | `content/skills.yml` |
+| Things you're learning, random facts, books, interests, goals | `learning.yml`, `facts.yml`, `books.yml`, `interests.yml`, `goals.yml` |
+| Links to GitHub, LinkedIn, email… | `content/social.yml` |
+| The GitHub and Spotify boxes | `content/widgets.yml` |
+| Blog categories | `content/categories.yml` |
+| Research map topics | `content/areas.yml` |
+| A project | one file per project in `content/projects/` |
+| A research entry | one file per entry in `content/research/` |
+
+### Rules for these files (YAML)
+
+These "YAML" files are friendly but picky about three things:
+
+1. **Spaces matter.** Lines that belong together are indented by two spaces. Don't use the Tab key.
+2. **A colon followed by a space separates a name from its value:** `name: Jainish`.
+3. **If your text contains a colon, quote it:** `title: "Part 1: the basics"`.
+
+Lists use a dash at the start of each item:
+
+```yaml
+- role: Research Intern
+  organization: Example Lab
+  type: research
+- role: Another role
+  organization: Another place
 ```
-node -v
+
+Copy an existing item and change it, and you can't go far wrong. If you slip, the robot names the file and the problem.
+
+### Adding a project
+
+Create `content/projects/my-project.md`:
+
+```markdown
+---
+title: My project
+summary: One or two sentences about it.
+category: ml            # ml, research, web, cloud, ai or systems
+status: completed       # active, completed, prototype or archived
+featured: true          # shows on the home page
+githubUrl: https://github.com/you/your-repo
+skills:                 # names from content/skills.yml
+  - python
+  - pytorch
+---
+
+# Problem
+
+What was wrong or missing?
+
+# Why I built it
+
+# Architecture
+
+# How it works
+
+# Challenges
+
+# Results
+
+# Lessons
 ```
 
-You should see something like `v22.12.0` or higher. If you see a lower number (for example `v20.16.0`), the old Node.js is still active. See [Troubleshooting](#7-troubleshooting).
+The sections (`# Problem`, `# Results`, …) are optional. Use only the ones you want. Other optional settings: `demoUrl`, `videoUrl`, `startDate`, `endDate`, `recognition`, `cover`, `order`, `areas`, `placeholder`. Research entries (`content/research/`) work the same way, with the sections `# Methodology`, `# Datasets`, `# Experiments` and `# Results`.
 
-### Step 2 — Get the files
+---
 
-**Easiest way (no Git needed):**
-1. Open this project's page on GitHub.
-2. Click the green **Code** button, then **Download ZIP**.
-3. Unzip it somewhere easy to find, such as your Desktop. You should end up with a folder called `jainish1510.github.io` (or similar) that contains `package.json`, `start.bat` and `README.md`.
+## 7. Replace the placeholders
 
-> **Which version?** The new site lives on the branch named `main` once its pull request is merged. Until then, switch the branch dropdown on GitHub to `claude/confident-cori-pavlcb` *before* clicking Download ZIP.
+The starter content is built from the CV details that were in this project. Anything that wasn't known is **clearly marked** so nothing false appears as fact.
 
-**If you already use Git:**
-```
-git clone https://github.com/jainish1510/jainish1510.github.io.git
-cd jainish1510.github.io
-```
+| What you'll see on the site | Where to change it |
+| --- | --- |
+| A badge saying **"details pending"** on a project | Open that file in `content/projects/`, fill in the sections, and delete the line `placeholder: true` |
+| Research marked **"placeholder"** | `content/research/…`, then delete `placeholder: true` |
+| Text starting with `[Placeholder]` | `content/site.yml`, `content/goals.yml` |
+| The portrait labelled **"placeholder"** on the About page | Upload your photo to `public/media/profile/`, then in `content/site.yml` change `portrait:` to your file and set `isPlaceholder: false` |
+| Sample articles labelled **"demonstration content"** | Edit them, or delete the files in `content/posts/` and write your own |
+| Projects without GitHub / demo links | Add `githubUrl:` / `demoUrl:` to the project file |
+| The Spotify track | `content/widgets.yml` |
 
-### Step 3 — Start it
+---
 
-Pick **one** of these:
+## 8. Previewing on your own computer (optional)
 
-**A. Double-click (easiest)**
+You don't need this to run the site. Do it if you'd like to **see your changes before publishing**.
+
+### Install once
+
+1. Install **Node.js version 22.12 or newer**: go to https://nodejs.org and download the **LTS** button's version. Restart your computer afterwards.
+2. Check it: open a terminal (Windows: press the Windows key, type `cmd`, Enter. Mac: `⌘ Space`, type `Terminal`, Enter) and type `node -v`. It must show `v22.12` or higher. If you see something lower, such as `v20.16.0`, the old Node is still active. Reinstall, close all terminals and try again.
+3. Get the files: on the repository page click the green **Code** button → **Download ZIP**, and unzip it. (Or `git clone` it if you use Git.)
+
+### Start the preview
+
 - **Windows:** double-click **`start.bat`**.
-- **Mac:** double-click **`start.command`**. The first time, macOS may say it can't be opened because it is from an unidentified developer. Right-click the file, choose **Open**, then **Open** again.
+- **Mac:** double-click **`start.command`** (first time: right-click → **Open** → **Open**).
+- **Or type:** open a terminal in the project folder and run `npm install` (first time only, takes a few minutes), then `npm run dev`.
 
-**B. Type it yourself**
-1. Open a terminal *inside the project folder*:
-   - **Windows:** open the folder in File Explorer, click the address bar at the top, type `cmd` and press Enter.
-   - **Mac:** right-click the folder and choose *New Terminal at Folder* (or drag the folder onto the Terminal icon).
-2. Run these two commands, one after the other:
-   ```
-   npm install
-   npm run dev
-   ```
+Open **http://localhost:3000** in your browser. **Save a file and refresh** to see the change. Press **Ctrl + C** in the terminal to stop.
 
-**What happens the first time** (this is automatic, so you don't have to do anything):
-
-1. `npm install` downloads the site's building blocks. It takes **2–5 minutes**, and it is normal for it to print a lot of text.
-2. `npm run dev` then:
-   - creates a private settings file called `.env` with random secret keys,
-   - creates the database (`data/portfolio.db`),
-   - fills it with starter content (sample articles, projects, your CV details),
-   - and starts the site.
-3. You will see a **box with your admin login**, like this:
-
-```
-  ┌────────────────────────────────────────────────────┐
-  │ YOUR ADMIN LOGIN  (shown once — save it)           │
-  │                                                    │
-  │ Address:   http://localhost:3000/admin             │
-  │ Email:     admin@example.com                       │
-  │ Password:  XA0aTFxhLjAc                            │
-  └────────────────────────────────────────────────────┘
-```
-
-**Copy the password somewhere safe.** If you lose it, it is also saved in the `.env` file (open it with Notepad), or you can [set a new one](#i-forgot-my-admin-password).
-
-### Step 4 — Open the site
-
-Wait until you see `Ready` in the terminal, then open your browser at:
-
-- **The website:** http://localhost:3000
-- **The admin area:** http://localhost:3000/admin (sign in with the email and password from the box)
-
-`localhost` means "this computer". Nobody else on the internet can see the site yet. Only you can, on this machine.
-
----
-
-## 3. Starting and stopping the site every day
-
-| I want to… | Do this |
-| --- | --- |
-| **Start** the site | Double-click `start.bat` / `start.command`, or run `npm run dev` in the project folder |
-| **Stop** the site | Click the terminal window and press **Ctrl + C** (then `Y` and Enter if Windows asks). Closing the window also works. |
-| **See** the site | Browser → http://localhost:3000 |
-| **Write or edit** | Browser → http://localhost:3000/admin |
-
-Starting again takes a few seconds. Your content is kept between runs.
-
-The site only works while that terminal window is open. If you close it, the site stops (this is normal).
-
----
-
-## 4. Your first ten minutes in the admin
-
-Go to http://localhost:3000/admin and sign in. Here is the left-hand menu:
-
-| Menu item | What it is for |
-| --- | --- |
-| **Dashboard** | A summary: views, drafts, comments waiting for you |
-| **Posts** | All your blog posts (published, drafts, archived) |
-| **Comments** | Approve or reject what readers write |
-| **Media** | Your uploaded pictures and videos |
-| **Tags & categories** | Organise posts |
-| **Analytics** | Which posts are read, and where visitors come from |
-| **Messages** | Notes sent through the Contact page |
-| **Projects, Research, Experience, Skills** | Your portfolio entries |
-| **Personal content** | The "Currently" block, your journey timeline, books, interests, goals, social links |
-| **Widgets** | Switch the Spotify, GitHub, clock and fact boxes on or off |
-| **Site settings** | Your name, headline, About text, contact email, menu links |
-
-### Write and publish your first post
-
-1. Click **New post** (the white button at the top left, or press **C**).
-2. Type a **title** and a **subtitle** at the top.
-3. Write in the big box below. Use the toolbar for headings, bold, links, lists, code, equations, tables, images and videos. You can also **paste or drag a picture** straight into the text and it uploads for you.
-4. The right half of the screen shows the **live preview** of what readers will see. Use the buttons at the top (**Write / Split / Preview**) to switch layouts.
-5. Open the **settings panel** (the icon at the top right) to choose a **category**, add **tags**, pick a **cover image** and write a short **excerpt**.
-6. Your work **saves itself** as a draft every few seconds. You can also press **Ctrl + S** (**⌘ S** on Mac).
-7. When you are happy, click **Publish**. A small checklist appears. Click **Publish now**.
-8. Click **View** in the green message that appears. Your post is live on the site.
-
-### Add a picture or video
-- In a post: click the picture icon in the toolbar, or paste or drag the file in.
-- Or go to **Media** → **Upload**. Afterwards, click a file and fill in the **alt text** (a short description for people who can't see the image). It improves accessibility and search results.
-- Allowed types: PNG, JPEG, WebP, GIF, AVIF, MP4, WebM. Maximum 12 MB each.
-- For YouTube, use the film icon in the toolbar and paste the video's link.
-
-### Moderate comments
-Comments from readers are **not shown publicly until you approve them.**
-1. Go to **Comments**. The **Pending** tab holds new ones.
-2. Click **Approve**, **Reject** or **Spam** on each. You can tick several and act on them together.
-3. Click **Reply** to answer as the author. Replying approves the comment you answer.
-
-### Change what visitors see on the home page
-- **Name, headline and the one-line intro:** Site settings → *Identity* and *Homepage*.
-- **The "Currently" box** (studying, building, learning, location): Personal content → *Currently*.
-- **Hide a section of the home page:** Site settings → *Homepage* → switch it off.
-
-### Change your admin password
-Open a terminal in the project folder and run (put your own password in the quotes; it must be at least 12 characters):
-```
-npm run admin:password -- "my new long password"
-```
-
----
-
-## 5. Making the site yours
-
-The starter content is built from the CV details that were in this project. Anything that could not be known is **clearly marked** so that nothing false is shown as fact.
-
-**Find the placeholders and replace them:**
-
-| What you will see | Where to change it |
-| --- | --- |
-| Badges saying **"details pending"** on a project | Admin → Projects → open the project → fill in the sections → untick *"Mark as details pending"* |
-| Research marked **"placeholder"** | Admin → Research |
-| `[Placeholder]` text (for example in goals or availability) | Admin → Personal content → *Goals*, or Site settings → *Contact* |
-| The portrait box labelled **"placeholder"** on the About page | Admin → Media → upload a photo, set its folder to **profile** |
-| Sample articles labelled **"demonstration content"** | Admin → Posts → edit or delete them, and write your own |
-| Comments from readers named **"(demo)"**, and the sample view numbers | Delete them in Admin → Comments, or reset without them (see below) |
-| Project links (GitHub / live demo) that are empty | Admin → Projects |
-
-**Start over with a clean slate and no demo comments, likes or views:**
-```
-npm run db:seed -- --no-demo
-```
-> ⚠️ This **replaces all content** with the starter content. Don't run it after you've written your own posts unless you have [a backup](#6-backing-up-your-work).
-
----
-
-## 6. Backing up your work
-
-Everything you create lives in **one folder: `data`** inside the project folder.
-
-- `data/portfolio.db`: all posts, comments, settings and content
-- `data/uploads/`: all the images and videos you uploaded
-
-**To back up:** stop the site, then copy the whole `data` folder somewhere safe (USB drive, cloud storage). Do this regularly, and always before experimenting.
-
-**To restore:** stop the site, replace the `data` folder with your backup, start again.
-
-Also keep a copy of the `.env` file somewhere private. It holds your secrets. Don't share it or upload it anywhere public.
-
----
-
-## 7. Troubleshooting
-
-### `node -v` shows a number lower than 22 (for example v20.16.0)
-Your computer is still using an old Node.js.
-1. Install the **LTS** version from https://nodejs.org (it must say 22 or higher).
-2. **Close every terminal window** and open a new one. Run `node -v` again.
-3. Still old? Another copy is first in your system's path. Uninstall the old Node.js (Windows: *Settings → Apps*), then reinstall the new one. If you use `nvm`: `nvm install 22` then `nvm use 22`.
-4. After upgrading, **delete the `node_modules` folder** and run `npm install` again. The database driver is built for one specific Node version, so an old copy won't work.
-
-### `npm install` prints a wall of yellow `EBADENGINE` warnings, or stops with an error mentioning "engine"
-Same cause as above: Node.js is too old. The project deliberately stops early so you get a clear message instead of a half-working site.
-
-### "`npm` is not recognized" / "command not found"
-Node.js isn't installed, or you didn't restart the terminal after installing. See Step 1.
-
-### "Port 3000 is already in use"
-Something else (often a previous run of this site) is using that port.
-- Close other terminal windows running the site, then try again.
-- Or use another port: `npm run dev -- -p 3001` and visit http://localhost:3001.
-
-### I forgot my admin password
-Run this in the project folder (any password of 12+ characters):
-```
-npm run admin:password -- "my new long password"
-```
-Your original generated one is also written in the `.env` file under `ADMIN_PASSWORD` (only until you change it).
-
-### The email in the admin login is `admin@example.com`. Can I change it?
-Yes. Before the **very first** start, create a file called `.env` (copy `.env.example`), set `ADMIN_EMAIL="you@yourmail.com"` and `ADMIN_NAME="Your Name"`, save it, then start. After the first start, use *Admin → Site settings* for display details; the login email is set when the database is created. To redo it, see "Start completely fresh" below.
-
-### Windows says "running scripts is disabled" (PowerShell)
-Use **Command Prompt** (`cmd`) instead of PowerShell, or double-click `start.bat`.
-
-### Windows Firewall / antivirus asks about "Node.js"
-Click **Allow** for *private networks*. The site only needs to talk to your own computer.
-
-### The page is blank, or looks broken, right after starting
-The first page load after starting compiles the site and can take 10–20 seconds. Wait and refresh. If it still fails, stop the site (Ctrl + C) and start it again.
-
-### Pictures I uploaded are missing
-Make sure the `data/uploads` folder is still there. Uploads live there, not in the database.
-
-### The GitHub or Spotify box says "Currently unavailable"
-That's expected without internet access or the optional keys. The rest of the site keeps working. See [Optional extras](#8-optional-extras-github-and-spotify).
-
-### Start completely fresh (this deletes everything you wrote!)
-1. Stop the site (Ctrl + C).
-2. Delete the `data` folder and the `.env` file.
-3. Start again. A new `.env`, database and starter content are created, with a new admin password shown in the box.
-
-### Something else
-Copy the **whole** error text from the terminal. The last 20 lines are the most useful. That is what anyone helping you will need.
-
----
-
-## 8. Optional extras: GitHub and Spotify
-
-The site works fully without these. Open `.env` in Notepad (Windows) or TextEdit (Mac). It is in the project folder, and may be hidden because its name starts with a dot. Then add the values you want, save, and restart the site.
-
-**GitHub activity on the About page**
-- Works automatically with your public profile (`GITHUB_USERNAME`, default `jainish1510`).
-- For the full contribution calendar, create a token at github.com → *Settings → Developer settings → Personal access tokens*. It needs **no permissions**. Paste it as `GITHUB_TOKEN="…"`.
-
-**Spotify "now playing"**
-Without keys, the box shows a clearly labelled **demo track** that you choose in *Admin → Widgets*. To show what you're really listening to:
-1. Create an app at https://developer.spotify.com/dashboard and note its **Client ID** and **Client Secret**.
-2. Authorise it once with the scopes `user-read-currently-playing user-read-recently-played`, and obtain a **refresh token**.
-3. Put all three in `.env` as `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`.
-
----
-
-## 9. Putting the site on the internet
-
-Running on your own computer (`localhost`) is private. To let the world see it:
-
-> ⚠️ **GitHub Pages cannot host this site.** This repository used to be a GitHub Pages site, but the new site has a database and an admin area, which need a real server. A static host such as GitHub Pages can only show fixed files.
-
-Good options (all need a **persistent disk** so your database and uploads survive restarts):
-
-- A small **VPS** (DigitalOcean, Hetzner, Linode)
-- **Fly.io** (with a volume), **Railway**, or **Render** (with a disk)
-
-On the server, with Node 22.12+ installed:
-
-```bash
-npm ci
-cp .env.example .env
-#   edit .env:
-#     NEXT_PUBLIC_SITE_URL="https://your-domain.com"
-#     SESSION_SECRET="<64 random characters>"
-#     ADMIN_EMAIL, ADMIN_PASSWORD (12+ characters)
-npm run build
-npm start          # creates the database on first run, then serves on port 3000
-```
-
-Put it behind HTTPS (most hosts do this for you). Back up the `data` folder regularly. Before going live, delete the demo posts and comments (Admin) or run `npm run db:seed -- --no-demo` once on a fresh server.
-
----
-
-## 10. Glossary
-
-| Word | Plain meaning |
-| --- | --- |
-| **Terminal / command line** | A window where you type commands. Called *Command Prompt* on Windows and *Terminal* on Mac. |
-| **Node.js** | The free engine that runs the site. Installed once. |
-| **npm** | Comes with Node.js. It downloads the building blocks (`npm install`) and runs commands (`npm run …`). |
-| **localhost** | "This computer". `http://localhost:3000` is the site running on your machine. |
-| **Admin** | The private area at `/admin` where you edit everything. |
-| **Draft / Published / Archived** | A draft is private; published is public; archived is hidden but kept. |
-| **Slug** | The part of a post's web address, for example `my-first-post` in `/blog/my-first-post`. |
-| **Markdown** | A simple way to format text (`## Heading`, `**bold**`). The toolbar writes it for you. |
-| **`.env` file** | A private settings file with secrets. Never share it. |
-| **Database** | The file `data/portfolio.db` where all your content is stored. |
-| **Alt text** | A short description of an image for people using screen readers. |
-
----
-
-## 11. Technical reference (for developers)
-
-### Commands
+### Handy commands
 
 | Command | What it does |
 | --- | --- |
-| `npm run dev` | Start the dev server. **`predev` runs `scripts/ensure-setup.mjs` first**: checks Node ≥ 22.12, creates `.env` with random secrets, runs migrations, seeds a brand-new database. Idempotent and quiet when nothing needs doing. |
-| `npm run build` / `npm start` | Production build / server (`prestart` runs the same setup check) |
-| `npm run setup` | Explicit migrate → generate → seed |
-| `npm run admin:password -- "…"` | Change the admin password only |
-| `npm run db:migrate` | `prisma migrate dev` after editing `schema.prisma` |
-| `npm run db:deploy` | Apply existing migrations |
-| `npm run db:generate` | Regenerate the Prisma client into `src/generated/prisma` |
-| `npm run db:seed [-- --no-demo]` | Wipe content tables and reseed (refuses in production without `--force`) |
-| `npm run db:studio` | Browse the SQLite file with Prisma Studio |
-| `npm run db:reset` | Drop, migrate, reseed (development only) |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm test` | Vitest unit and integration tests (fresh SQLite at `data/test.db`) |
-| `npm run test:e2e` | Playwright end-to-end tests (isolated `data/e2e.db`, port 3100) |
+| `npm run dev` | Preview with live updates |
+| `npm run new-post -- "My post title"` | Creates a ready-to-edit **draft** in `content/posts/` |
+| `npm run check` | Checks all your content and explains any mistake in plain language |
+| `npm run build` | Builds the real site into the `out` folder, exactly what GitHub publishes |
+| `npm run preview` | Serves that built `out` folder, to test it exactly as GitHub Pages will |
 
-`.npmrc` sets `engine-strict=true`, so installing on an unsupported Node fails fast with a clear message.
+### Publishing from your computer
+If you use Git: commit and push to `main`, and the robot does the rest. If you edit locally by downloading a ZIP, copy your changed files into the repository on github.com using **Add file → Upload files**.
 
-### Dependency policy
-All dependencies are on their latest stable releases (Next.js 16, React 19.3, Prisma 7.10, Tailwind 4, TypeScript 7, Vitest 5, Playwright 1.63, Three.js, Motion, Recharts, Mermaid). The one deliberate exception is Prisma: the registry's `latest` tag currently points at an 8.0 *release candidate*, so the project stays on the newest stable 7.x. Check with `npm outdated`.
+---
 
-### Environment variables
+## 9. Optional extras
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `DATABASE_URL` | yes (default set) | SQLite file, default `file:./data/portfolio.db` |
-| `NEXT_PUBLIC_SITE_URL` | in production | Canonical origin for SEO, sitemap, RSS and OpenGraph |
-| `SESSION_SECRET` | production (≥ 32 chars) | Signs anonymous visitor IDs, salts IP hashes. Generated automatically in development. |
-| `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME` | first run | Admin account bootstrap (password ≥ 12 chars) |
-| `GITHUB_USERNAME`, `GITHUB_TOKEN` | optional | GitHub widget |
-| `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | optional | Live "now playing" |
-| `UPLOAD_DIR` | optional | Upload location, default `data/uploads` |
+### Comments (free, via GitHub Discussions)
+A static site has no database, so comments use **giscus**, which stores them as GitHub Discussions in your repository. Readers sign in with GitHub to comment.
+1. In the repository: **Settings → General → Features**, tick **Discussions**.
+2. Install the **giscus app** from https://github.com/apps/giscus for this repository.
+3. Go to https://giscus.app, enter `jainish1510/jainish1510.github.io`, and choose a category (**Announcements** is a good one). The page shows you four values: `data-repo`, `data-repo-id`, `data-category` and `data-category-id`.
+4. Put them in `content/site.yml` and switch it on:
 
-No credentials are committed. `.env` and `data/` are git-ignored.
+```yaml
+comments:
+  enabled: true
+  repo: jainish1510/jainish1510.github.io
+  repoId: R_xxxxxxxx
+  category: Announcements
+  categoryId: DIC_xxxxxxxx
+```
 
-### Public site
-| Route | |
+A "Discussion" section then appears at the bottom of each post. I couldn't test this live from here, so check one post after you turn it on.
+
+### GitHub activity box
+Works automatically from your public profile (`username` in `content/widgets.yml`). It loads in each visitor's browser. If GitHub is slow or rate-limited, the box shows the last information it saw, or "Currently unavailable". The rest of the site is unaffected.
+
+### Spotify box
+A static site can't safely ask Spotify what you're playing right now (it would need a secret key). So the box shows **a track you like** that you choose in `content/widgets.yml`, labelled "On repeat".
+
+### Your own web address (custom domain)
+**Settings → Pages → Custom domain**, then follow GitHub's instructions at your domain provider. Afterwards, change `url:` in `content/site.yml` to your new address so links and search previews are correct.
+
+### Visitor statistics
+There's no built-in analytics (no server to count visitors). A privacy-friendly service such as GoatCounter or Plausible can be added later with a small script.
+
+---
+
+## 10. Troubleshooting
+
+### The Actions tab shows a red ✗ and my change didn't appear
+Click the failed run, then the red step (usually **Run npm run check**). The message lists every problem, for example:
+
+```
+• content/posts/my-post.md → date: a published post needs a date, for example date: 2026-07-12
+• content/projects/blueaid.md: Unrecognized key: "tilte"
+• content/posts/essay.md: category “essayz” does not exist. Available: research-notes, building, essays
+```
+
+Fix those files and commit again. Meanwhile **your previous site stays live**.
+
+| Message | What it means |
 | --- | --- |
-| `/` | WebGL constellation hero (mouse parallax, scroll dolly, reduced-motion and no-WebGL SVG fallback), "Currently", featured projects, research, writing, about, contact |
-| `/about` | Story, journey timeline, education, experience, recognition, interests, goals, widgets (Spotify, GitHub, clock, random fact, learning, orbiting tools) |
-| `/projects`, `/projects/[slug]` | Filterable explorer with depth-on-hover cards; detail pages with problem, architecture (Mermaid), how it works, challenges, results, lessons, gallery, demo |
-| `/research`, `/research/[slug]` | Interactive force-directed research graph and academic-style entries |
-| `/experience` | Scroll-driven timeline and technology universe |
-| `/blog`, `/blog/[slug]` | Publication index and the reading experience: progress bar, table of contents, continue-reading, engagement bar, KaTeX, highlighted code, lightbox, embeds, Mermaid, interactive components, related posts, threaded comments |
-| `/search`, `/bookmarks`, `/contact` | Search (also `⌘K` / `Ctrl K`), saved articles, contact form |
-| `/rss.xml`, `/sitemap.xml`, `/robots.txt` | Feeds and SEO |
+| `Unrecognized key: "tilte"` | A setting name is misspelled (this one should be `title`) |
+| `this is required but missing` | A needed setting is absent |
+| `a published post needs a date` | Add `date: 2026-10-15` or set `status: draft` |
+| `category “x” does not exist` | Use a name from `content/categories.yml` |
+| `the image /media/... was not found` | The picture isn't uploaded, or the spelling or capitals differ |
+| `the file must start with a settings block` | The post must begin with a line of `---`, the settings, then another `---` |
+| `could not be read … Check indentation, and put quotes around text that contains a colon` | A YAML slip: look for a Tab, or text with a colon that needs quotes |
+| `the file name must be lowercase words joined by hyphens` | Rename it like `my-first-post.md` |
 
-### Writing syntax
-Posts are stored as Markdown (with extensions) in SQLite.
+### My post isn't showing
+- `status:` must be `published`, not `draft`.
+- The `date:` must not be in the future.
+- Wait the ~2 minutes for the robot, then refresh. Press **Ctrl + Shift + R** (⌘ ⇧ R on Mac) to skip your browser's saved copy.
 
-````markdown
-## Headings, **bold**, *italic*, ++underline++, `code`, [links](https://…)
+### My image doesn't show
+Check the spelling and capital letters, that it's under `public/media/`, and that the address in your text starts with `/media/` (not `/public/media/`).
 
-Inline math $E = mc^2$ and display math:
+### The site shows an old version
+Wait a few minutes and force-refresh (Ctrl + Shift + R). Check the **Actions** tab for a green tick on the latest run.
 
-$$
-\mathcal{L} = \mathbb{E}_{q}[\log p(x \mid z)] - D_{KL}(q \,\|\, p)
-$$
+### Pages says "404" for the whole site
+In **Settings → Pages**, **Source** must be **GitHub Actions**. Then open **Actions** and re-run **Deploy to GitHub Pages** (**Run workflow**).
 
-```python
-print("syntax highlighted, with a copy button")
+### Preview on my computer: `npm install` prints lots of yellow warnings, or fails mentioning "engine"
+Node.js is too old. See [Previewing](#8-previewing-on-your-own-computer-optional): install Node 22.12+, open a **new** terminal, delete the `node_modules` folder if one exists, and run `npm install` again.
+
+### Preview: "Port 3000 is already in use"
+Close other terminals running the site, or run `npm run dev -- -p 3001` and open http://localhost:3001.
+
+### Preview: Windows says "running scripts is disabled"
+Use **Command Prompt** (`cmd`) instead of PowerShell, or double-click `start.bat`.
+
+### Something else
+Copy the full error text (from the Actions tab or your terminal) and ask for help with that text. The last 20 lines are the most useful.
+
+---
+
+## 11. What changed from the earlier version
+
+The earlier version of this project ran its own server with a database, a login-protected admin area and live comments. **That can't run on GitHub Pages**, which only serves ready-made files. To make it hostable, the following was changed. The design, pages and styling are unchanged.
+
+| Before | Now |
+| --- | --- |
+| Admin area with login (`/admin`) | You edit files on GitHub (or locally). GitHub is your admin. |
+| SQLite database | Plain text files in `content/` |
+| Image upload library | Upload to `public/media/` |
+| Live likes, view counts and comments | Removed. Optional comments through GitHub Discussions (giscus). |
+| Analytics dashboard | Removed (see optional visitor statistics) |
+| Contact form that saved messages | The form opens your visitor's email app, addressed to you |
+| Live "now playing" from Spotify | A track you choose, labelled "On repeat" |
+| Search through a server | Search runs in the visitor's browser, using an index built with the site |
+| "Saved articles" synced to a server | Saved in each visitor's browser |
+| Scheduled posts | A nightly rebuild publishes posts when their date arrives |
+
+Still there: the whole design, the 3D hero (with fallbacks), project and research explorers, the interactive research map, the technology map, journey timeline, command palette (`⌘K` / `Ctrl K`), keyboard shortcuts, light/dark theme, reading progress, table of contents, maths, code, diagrams, interactive figures, RSS feed, sitemap and search-engine previews.
+
+---
+
+## 12. Glossary
+
+| Word | Plain meaning |
+| --- | --- |
+| **Repository ("repo")** | The project's folder on GitHub, with every file and its full history |
+| **Commit** | Saving a change to the repository |
+| **`main`** | The main version of the project. What's on `main` is what gets published. |
+| **Pull request** | A proposed change that you review and merge into `main` |
+| **GitHub Pages** | GitHub's free website hosting |
+| **GitHub Actions** | GitHub's free robots. Ours checks your content, builds the site and publishes it. |
+| **Static site** | A website made of ready-made files, with no server running behind it |
+| **Markdown** | A simple way to format text (`## Heading`, `**bold**`) |
+| **YAML** | A simple format for settings (`name: value`, and lists with dashes) |
+| **Front matter** | The settings block at the top of a post, between two `---` lines |
+| **Slug** | The part of a web address that names a page, e.g. `my-first-post` |
+| **Terminal** | A window where you type commands (Command Prompt on Windows) |
+| **Node.js / npm** | The free tools used only to preview or build the site on your own computer |
+
+---
+
+## 13. Technical reference (for developers)
+
+### Stack
+Next.js 16 (App Router) with `output: "export"` · React 19 · TypeScript 7 · Tailwind CSS 4 · Motion / GSAP · Three.js + React Three Fiber · D3 force layouts · cmdk · Radix UI · unified/remark/rehype with KaTeX, highlight.js and Mermaid · zod · Vitest · Playwright.
+
+### Static-hosting decisions
+- `next.config.ts`: `output: "export"`, `trailingSlash: true` (every page is `…/index.html`), `images.unoptimized: true`.
+- No server features are used: no cookies, headers, redirects, rewrites, proxy, server actions, ISR, or API routes. Data-like endpoints (`/search-index.json`, `/rss.xml`, `/sitemap.xml`, `/robots.txt`, `/og/*.png`) are **static route handlers** (`export const dynamic = "force-static"`) emitted at build time.
+- Social-preview images are generated at build time to real `.png` files (`/og/site.png`, `/og/posts/<slug>/image.png`), because GitHub Pages infers content type from the extension.
+- `public/.nojekyll` stops Pages' Jekyll step from ignoring `_next/`.
+- Filtering, search and saved articles run **in the browser** (`useSearchParams` inside `Suspense`; the search index is fetched once from `/search-index.json`). Every filtered view is still a shareable URL.
+- Dynamic routes use `generateStaticParams` with `dynamicParams = false`; unknown URLs get the real `404.html`.
+- The GitHub widget calls `api.github.com` from the browser and caches the last good result in `localStorage`.
+- The site URL comes from `content/site.yml` (`url:`), used for canonical links, sitemap, RSS, Open Graph and JSON-LD. If you serve from a project repo (not `<user>.github.io`), also set `basePath` in `next.config.ts`.
+
+### Content layer (`src/lib/store`)
+- `schema.ts`: zod schemas for every file. All objects are `.strict()`, so typos are errors.
+- `load.ts`: reads `content/` and `public/` at build time, resolves references (categories, areas, skills, projects), checks that referenced images exist, splits project/research bodies into `# Section`s (ignoring `#` inside code fences), and **collects all problems into one `ContentError`** with file + field + plain-language messages. Cached per build; re-read on each request in `next dev`, so edits show on refresh.
+- `src/lib/repositories/*`: thin query functions (published posts, related posts, adjacent posts, research graph…) over the loaded content. Pages never read files directly.
+- Visibility: a post is live if `status: published` and its `date` is on or before the build time. The nightly workflow re-runs the build so scheduled posts appear.
+
+### Project layout
+```
+content/            all editable content (YAML lists + Markdown with front matter)
+public/media/       images and video (served at /media/…)
+src/app/            routes: (public)/ pages, og/ images, rss.xml, sitemap.ts, robots.ts, search-index.json
+src/components/     ui, blog, content (markdown renderer, embeds, interactive figures), portfolio,
+                    research, three (WebGL + fallbacks), widgets, interaction (palette, cursor, theme…)
+src/lib/store/      content schema + loader
+src/lib/repositories/  content queries
+src/lib/search/     weighted in-browser search engine + build-time document list
+scripts/            new-post.mjs, check-content.ts
+tests/              unit (Vitest) and e2e (Playwright)
+.github/workflows/  deploy.yml (Pages), ci.yml (pull requests)
 ```
 
-```mermaid
-flowchart LR
-  A --> B
-```
+### Commands
 
-![Alt text](/media/blog/figure.png "Caption")
+| Command | |
+| --- | --- |
+| `npm run dev` | Dev server with live content reload |
+| `npm run build` | Static export to `./out` |
+| `npm run preview` | Serve `./out` on :3000 (as Pages would) |
+| `npm run check` | Validate `content/` and print readable errors |
+| `npm run new-post -- "Title"` | Scaffold a draft post |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest |
+| `npm run test:e2e` | Builds, serves `./out`, runs Playwright on desktop and mobile viewports |
 
-:::gallery
-![One](/media/blog/a.png)
-![Two](/media/blog/b.png)
-:::
+Requires Node ≥ 22.12 (`.npmrc` sets `engine-strict=true`, so installing on an older Node fails with a clear message). If Playwright's browser download is blocked, use `PW_CHROMIUM_PATH=/path/to/chrome npm run test:e2e`.
 
-::youtube[Caption]{id="aircAruvnKk"}
-::video[Caption]{src="/media/blog/clip.mp4"}
-::embed[Caption]{url="https://codepen.io/user/pen/abc"}
+### Tests
+- **Unit:** Markdown pipeline (XSS, math, directives, TOC), embed allow-list, text utilities, search engine (ranking, prefixes, typos, AND semantics, JSON round-trip), the content loader against temporary content trees (valid sites, every friendly-error path, drafts and future dates), and the **real `content/` folder** (valid, every referenced image exists, ordering, filters, related posts, research-graph integrity, search index excludes drafts).
+- **E2E (static output):** navigation and mobile menu, theme persistence, command-palette search → open result, blog filtering by category/tag/query and the empty state, article rendering (math, code copy, interactive figure, video facade, TOC), saving/removing a bookmark, drafts not published, project and research pages, research-graph filtering, About widgets, SEO files and content types, metadata and JSON-LD, no admin/API, designed 404, and no console errors on key pages.
 
-:::callout{kind="note" title="Heads up"}
-Callouts: note, tip, warning, demo.
-:::
-
-::component[Optional title]{name="gaussian-explorer" mu="1.2"}
-````
-
-Interactive components are registered in `src/components/content/component-slot.tsx` and are code-split. Bundled: `gaussian-explorer`, `sorting-visualizer`, `line-chart`, `uncertainty-sim`.
-
-### Architecture
-```
-prisma/            schema.prisma, migrations/, seed.ts, seed-art.ts, seed-content/*.md
-scripts/           ensure-setup.mjs (auto first-run setup), set-admin-password.ts
-src/
-  app/(public)/    public routes
-  app/admin/       login, (panel)/ protected pages, actions/ (server actions)
-  app/api/         route handlers (search, engagement, comments, uploads, health…)
-  app/media/       serves uploads with range requests and a sandboxed CSP
-  components/      ui, blog, content, portfolio, research, three, widgets, admin, interaction
-  lib/db           Prisma client (the only SQLite-specific file)
-  lib/repositories data access (Repository pattern)
-  lib/integrations GitHub and Spotify adapters (Adapter pattern; Spotify has a demo provider)
-  lib/content      Markdown pipeline, directives, embed factory, editor operations
-  lib/search       in-process weighted search index
-  lib/events       typed event bus (Observer): publish → revalidate pages, refresh search
-  lib/admin        declarative collection definitions → generated validators and forms (Factory)
-  lib/security     rate limiting, visitor IDs, spam scoring, request helpers
-tests/             unit, integration, e2e
-```
-Strategy pattern: `render-strategy.ts` picks full / lite / static 3D quality per device.
-
-**Moving off SQLite:** change `provider` in `schema.prisma`, swap `@prisma/adapter-better-sqlite3` for `@prisma/adapter-pg` / `@prisma/adapter-libsql` in `src/lib/db/client.ts`, regenerate migrations, and move uploads to object storage behind `src/lib/media/storage.ts`.
-
-### Security
-- **Admin auth:** scrypt hashing; opaque random session tokens in an `httpOnly`, `SameSite=Lax` cookie (Secure in production), only the SHA-256 stored; 7-day expiry; login rate-limited in memory and in the database.
-- **Authorization:** `src/proxy.ts` gives an early redirect; `requireAdmin()` is the real check on every admin page, server action and admin route.
-- **CSRF:** Server Actions use Next.js's origin check; JSON endpoints verify `Origin` against `Host`.
-- **XSS:** Markdown is sanitized with `rehype-sanitize` before KaTeX and highlighting, raw HTML is never parsed, comments are plain text, Mermaid runs in strict mode, JSON-LD escapes `<`.
-- **Uploads:** magic-byte type detection (no SVG), 12 MB cap, random filenames, traversal refused, served with `nosniff` and a sandboxed CSP.
-- **Abuse controls:** per-IP rate limits; comment honeypot, time-to-submit, length limits, spam scoring, moderation queue.
-- **Privacy:** HMAC-signed anonymous visitor cookie, salted IP hashes, referrer hostnames only, bots excluded from view counts.
-- **Headers:** CSP, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, HSTS in production; admin pages `noindex`.
-
-`npm audit` reports advisories in `mysql2`, a transitive dependency of the Prisma CLI. It is development tooling that this app never loads (SQLite only).
-
-### Testing
-- **Unit:** Markdown pipeline (XSS, math, directives, TOC), embeds, search, validation, collection-schema factory, editor operations, password hashing, visitor IDs, rate limiting, spam, upload detection, path traversal
-- **Integration (real SQLite):** posts (create, edit, publish, schedule, archive, revisions, tags, slugs, related), likes (including concurrent duplicates), view de-duplication, bookmarks, comments (moderation, depth cap), sessions, collections, settings, media upload
-- **E2E (Playwright):** login → create post → toolbar and live preview → tags and category → save draft → draft is a real 404 → full preview → publish → public article → like persists → save → comment → moderate → visible → bookmarks → search → logout; plus public smoke tests on desktop and mobile viewports
-
-If Playwright's browser download is blocked, use an installed Chromium: `PW_CHROMIUM_PATH=/path/to/chrome npm run test:e2e`.
+### Dependencies
+All on their latest stable releases. Check with `npm outdated`.
 
 ### Content provenance
 - **Real profile data** (education, roles, projects, recognitions, links) comes from the CV data that was in this repository before the rebuild. Specific claims such as "5K+ scans" or "ROUGE +21%" are copied from that source.
 - Anything not in that source is marked ("details pending", "placeholder", `[Placeholder]`).
-- The five blog posts, "(demo)" commenters, and seeded likes, views and bookmarks are **demonstration content**, labelled as such. No publications, awards or employment were invented.
+- The five blog posts (and one draft) are **demonstration content**, labelled as such. No publications, awards or employment were invented.
 
 ### Small delights
 `⌘K` / `Ctrl K` command palette · `/` search · `?` keyboard shortcuts · `G` then `H/A/P/R/B/E/S` to navigate · `T` toggles the theme · type `sudo` in the palette for developer mode · try the Konami code · every cover image is generated from code.

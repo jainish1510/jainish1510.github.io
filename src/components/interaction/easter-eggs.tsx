@@ -4,11 +4,11 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { LiveDot } from "@/components/ui/primitives";
+import { loadSearchIndex } from "@/lib/search/client";
 import { isTypingTarget, UI_EVENTS } from "./events";
 
 const KONAMI = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
 
-type Health = { ok: boolean; database: "connected" | "unavailable"; latencyMs: number; integrations: { github: boolean; spotify: boolean }; posts: number; uptimeS: number; node: string };
 
 function detectWebGL() {
   try {
@@ -26,7 +26,8 @@ function detectWebGL() {
 export function EasterEggs() {
   const [konami, setKonami] = useState(false);
   const [system, setSystem] = useState(false);
-  const [health, setHealth] = useState<Health | null>(null);
+  const [indexed, setIndexed] = useState<number | null>(null);
+  const [online, setOnline] = useState<boolean | null>(null);
   const [webgl, setWebgl] = useState("…");
 
   useEffect(() => {
@@ -57,21 +58,23 @@ export function EasterEggs() {
   useEffect(() => {
     if (!system) return;
     setWebgl(detectWebGL());
-    const started = performance.now();
-    fetch("/api/health", { cache: "no-store" })
-      .then((r) => r.json() as Promise<Health>)
-      .then((h) => setHealth({ ...h, latencyMs: h.latencyMs ?? Math.round(performance.now() - started) }))
-      .catch(() => setHealth(null));
+    loadSearchIndex()
+      .then((i) => setIndexed(i.size))
+      .catch(() => setIndexed(0));
+    // Is GitHub's public API reachable from this browser right now?
+    fetch("https://api.github.com/rate_limit")
+      .then((r) => setOnline(r.ok))
+      .catch(() => setOnline(false));
   }, [system]);
 
+  const built = process.env.NEXT_PUBLIC_BUILD_TIME ? new Date(process.env.NEXT_PUBLIC_BUILD_TIME).toLocaleString() : "unknown";
   const rows: [string, string, boolean][] = [
     ["WebGL", webgl, !webgl.startsWith("Unavailable")],
-    ["API", health ? "Connected" : "Checking…", !!health],
-    ["Database", health ? `${health.database === "connected" ? "Connected" : "Unavailable"} · SQLite · ${health.latencyMs}ms` : "Checking…", health?.database === "connected"],
-    ["GitHub", health ? (health.integrations.github ? "Token configured" : "Public API") : "…", true],
-    ["Spotify", health ? (health.integrations.spotify ? "Live" : "Demo state") : "…", !!health?.integrations.spotify],
-    ["Published posts", health ? String(health.posts) : "…", true],
-    ["Runtime", health ? `Node ${health.node} · up ${Math.round(health.uptimeS / 60)}m` : "…", true],
+    ["Hosting", "Static site · GitHub Pages", true],
+    ["Content", "Markdown & YAML files in the repository", true],
+    ["Search index", indexed === null ? "Loading…" : `${indexed} documents, searched in your browser`, indexed !== 0],
+    ["GitHub API", online === null ? "Checking…" : online ? "Reachable" : "Unreachable (widget shows cached data)", online !== false],
+    ["Built", built, true],
   ];
 
   return (

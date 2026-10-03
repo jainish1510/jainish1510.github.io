@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn, hashString } from "@/lib/utils";
 
-type CoverMedia = { path: string; alt: string; width: number | null; height: number | null } | null | undefined;
+type CoverMedia = { path: string; alt: string } | null | undefined;
 
 /** Uploaded cover via next/image, or a deterministic gradient when none exists. */
 export function Cover({ media, seed, className, sizes, priority, imgClassName }: { media: CoverMedia; seed: string; className?: string; sizes: string; priority?: boolean; imgClassName?: string }) {

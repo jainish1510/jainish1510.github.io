@@ -9,11 +9,10 @@ type HeaderPost = {
   subtitle: string | null;
   readingTime: number;
   publishedAt: Date | null;
-  updatedAt: Date;
   isDemo: boolean;
   author: { name: string };
   category: { name: string; slug: string } | null;
-  cover: { path: string; alt: string; width: number | null; height: number | null } | null;
+  cover: { path: string; alt: string } | null;
 };
 
 export function ArticleHeader({ post }: { post: HeaderPost }) {

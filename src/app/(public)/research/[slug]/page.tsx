@@ -1,23 +1,27 @@
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GitHubIcon } from "@/components/brand/icons";
 import { Markdown } from "@/components/content/markdown";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/primitives";
-import { getResearch } from "@/lib/repositories/portfolio";
+import { getResearch, listResearchSlugs } from "@/lib/repositories/portfolio";
 import { breadcrumbSchema, JsonLd } from "@/lib/seo";
+import { getSite } from "@/lib/site";
 import { formatRange } from "@/lib/utils";
 
-export const revalidate = 60;
+export const dynamicParams = false;
 type Props = { params: Promise<{ slug: string }> };
 
+export function generateStaticParams() {
+  return listResearchSlugs().map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const r = await getResearch((await params).slug);
+  const r = getResearch((await params).slug);
   if (!r) return { title: "Research not found" };
-  return { title: r.title, description: r.abstract.slice(0, 200), alternates: { canonical: `/research/${r.slug}` } };
+  return { title: r.title, description: r.abstract.slice(0, 200), alternates: { canonical: `/research/${r.slug}/` } };
 }
 
 const SECTIONS = [
@@ -28,14 +32,14 @@ const SECTIONS = [
 ] as const;
 
 export default async function ResearchDetail({ params }: Props) {
-  const r = await getResearch((await params).slug);
+  const r = getResearch((await params).slug);
   if (!r) notFound();
   return (
     <article className="pt-28 md:pt-36">
-      <JsonLd data={breadcrumbSchema([{ name: "Research", path: "/research" }, { name: r.title, path: `/research/${r.slug}` }])} />
+      <JsonLd data={breadcrumbSchema(getSite(), [{ name: "Research", path: "/research/" }, { name: r.title, path: `/research/${r.slug}/` }])} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "ResearchProject", name: r.title, description: r.abstract }} />
       <div className="container-prose">
-        <Link href="/research" className="eyebrow inline-flex items-center gap-2 hover:!text-fg">
+        <Link href="/research/" className="eyebrow inline-flex items-center gap-2 hover:!text-fg">
           <ArrowLeft className="size-3" /> Research
         </Link>
         <div className="mt-10 flex flex-wrap gap-2">
@@ -76,21 +80,6 @@ export default async function ResearchDetail({ params }: Props) {
             <Markdown source={r[k]!} />
           </section>
         ))}
-        {r.figures.length ? (
-          <section className="mt-12">
-            <h2 className="eyebrow mb-4">Figures</h2>
-            <div className="space-y-6">
-              {r.figures.map((f, i) => (
-                <figure key={f.id}>
-                  <Image src={f.path} alt={f.alt} width={f.width ?? 1200} height={f.height ?? 800} className="h-auto w-full rounded-xl border border-line" sizes="(min-width: 768px) 704px, 100vw" />
-                  <figcaption className="mt-2 text-sm text-muted">
-                    Figure {i + 1}. {f.caption}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </section>
-        ) : null}
         <section className="mt-12 grid gap-6 border-t border-line pt-8 sm:grid-cols-2">
           <div>
             <h2 className="eyebrow mb-2">Publication</h2>
@@ -120,7 +109,7 @@ export default async function ResearchDetail({ params }: Props) {
             <div className="sm:col-span-2">
               <h2 className="eyebrow mb-2">Related projects</h2>
               {r.projects.map((p) => (
-                <Link key={p.slug} href={`/projects/${p.slug}`} className="block text-sm text-fg hover:text-accent-strong">
+                <Link key={p.slug} href={`/projects/${p.slug}/`} className="block text-sm text-fg hover:text-accent-strong">
                   → {p.title}
                 </Link>
               ))}

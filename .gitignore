@@ -1,34 +1,20 @@
 # dependencies
 node_modules/
 
-# next
+# build output
 .next/
 out/
 next-env.d.ts
 *.tsbuildinfo
 
-# environment
-.env
-.env.local
-.env.*.local
-
-# local database + uploads (data/ is created by `npm run setup`)
-data/*
-!data/.gitkeep
-*.db
-*.db-journal
-
-# prisma generated client
-src/generated/
-
 # testing
 coverage/
 playwright-report/
 test-results/
-.vitest/
 
 # misc
+.env
+.env.*
 .DS_Store
 npm-debug.log*
-.next-e2e/
-.next-build/
+*.log

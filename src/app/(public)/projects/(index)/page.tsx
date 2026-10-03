@@ -3,15 +3,14 @@ import { Suspense } from "react";
 import { ProjectExplorer } from "@/components/portfolio/project-explorer";
 import { listProjects } from "@/lib/repositories/portfolio";
 
-export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Projects",
   description: "Machine learning, research, web, cloud and AI systems projects by Jainish Patel.",
-  alternates: { canonical: "/projects" },
+  alternates: { canonical: "/projects/" },
 };
 
-export default async function ProjectsPage() {
-  const projects = await listProjects();
+export default function ProjectsPage() {
+  const projects = listProjects();
   return (
     <div className="container-page pt-32 md:pt-44">
       <header className="grid gap-8 pb-14 md:grid-cols-[1.4fr_1fr] md:items-end">

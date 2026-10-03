@@ -11,22 +11,18 @@ import { LocalClock } from "@/components/widgets/local-clock";
 import { listPublishedPosts, getFeaturedPost } from "@/lib/repositories/posts";
 import { listProjects, listResearch } from "@/lib/repositories/portfolio";
 import { listInterests, listLearning, listNowItems } from "@/lib/repositories/personal";
-import { flag, getSettings } from "@/lib/settings";
+import { getSite } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
-export const revalidate = 60;
-
-export default async function HomePage() {
-  const [settings, now, featured, recent, projects, research, interests, learning] = await Promise.all([
-    getSettings(),
-    listNowItems(),
-    getFeaturedPost(),
-    listPublishedPosts({ take: 4 }),
-    listProjects({ featured: true }),
-    listResearch(),
-    listInterests(),
-    listLearning(),
-  ]);
+export default function HomePage() {
+  const site = getSite();
+  const now = listNowItems();
+  const featured = getFeaturedPost();
+  const recent = listPublishedPosts({ take: 4 });
+  const projects = listProjects({ featured: true });
+  const research = listResearch();
+  const interests = listInterests();
+  const learning = listLearning();
   const latestPost = recent.posts[0];
   const latestProject = projects[0];
   const otherPosts = recent.posts.filter((p) => p.id !== featured?.id).slice(0, 3);
@@ -34,15 +30,15 @@ export default async function HomePage() {
   return (
     <>
       <Hero
-        name={settings["site.name"]}
-        discipline={settings["site.discipline"]}
-        roles={settings["site.roles"]}
-        intro={settings["hero.intro"]}
-        location={settings["location.label"]}
+        name={site.name}
+        discipline={site.discipline}
+        roles={site.roles}
+        intro={site.heroIntro}
+        location={site.location}
       />
 
       {/* ── Currently ─────────────────────────────────────────── */}
-      {flag(settings, "home.showNow") ? (
+      {site.homeSections.now ? (
         <section id="now" className="container-page scroll-mt-24 py-24 md:py-32">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal className="space-y-6">
@@ -52,7 +48,7 @@ export default async function HomePage() {
                 Currently
               </p>
               <h2 className="text-balance text-3xl font-medium tracking-[-0.03em] md:text-[2.5rem] md:leading-[1.1]">What I&apos;m doing right now.</h2>
-              <LocalClock timezone={settings["location.timezone"]} label={settings["location.label"]} />
+              <LocalClock timezone={site.timezone} label={site.location} />
             </Reveal>
             <Reveal delay={0.1}>
               <dl className="divide-y divide-line border-y border-line">
@@ -91,7 +87,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* ── Projects ──────────────────────────────────────────── */}
-      {flag(settings, "home.showProjects") && projects.length ? (
+      {site.homeSections.projects && projects.length ? (
         <section className="container-page py-24 md:py-32">
           <Reveal>
             <SectionHeading
@@ -116,7 +112,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* ── Research ──────────────────────────────────────────── */}
-      {flag(settings, "home.showResearch") && research.length ? (
+      {site.homeSections.research && research.length ? (
         <section className="relative border-y border-line bg-bg-raised py-24 md:py-32">
           <div className="grid-bg pointer-events-none absolute inset-0 opacity-40" aria-hidden />
           <div className="container-page relative">
@@ -161,7 +157,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* ── Writing ───────────────────────────────────────────── */}
-      {flag(settings, "home.showWriting") && featured ? (
+      {site.homeSections.writing && featured ? (
         <section className="container-page py-24 md:py-32">
           <Reveal>
             <SectionHeading
@@ -187,7 +183,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* ── About + interests ─────────────────────────────────── */}
-      {flag(settings, "home.showAbout") ? (
+      {site.homeSections.about ? (
         <section className="container-page py-24 md:py-32">
           <div className="grid gap-16 lg:grid-cols-2">
             <Reveal className="space-y-8">
@@ -199,7 +195,7 @@ export default async function HomePage() {
                 The longer story <ArrowUpRight />
               </Link>
             </Reveal>
-            {flag(settings, "home.showInterests") ? (
+            {site.homeSections.interests ? (
               <Reveal delay={0.1} className="grid gap-10 sm:grid-cols-2">
                 <div>
                   <p className="eyebrow mb-4">Currently learning</p>
@@ -242,14 +238,14 @@ export default async function HomePage() {
           <div className="grid-bg pointer-events-none absolute inset-0 opacity-50" aria-hidden />
           <p className="eyebrow relative">06 · Contact</p>
           <h2 className="relative mx-auto mt-6 max-w-2xl text-balance text-4xl font-medium tracking-[-0.035em] md:text-6xl">Let&apos;s build or research something together.</h2>
-          {settings["contact.blurb"] ? <p className="relative mx-auto mt-5 max-w-lg text-muted">{settings["contact.blurb"]}</p> : null}
+          {site.contactBlurb ? <p className="relative mx-auto mt-5 max-w-lg text-muted">{site.contactBlurb}</p> : null}
           <div className="relative mt-9 flex flex-wrap justify-center gap-3">
             <Link href="/contact" className={buttonVariants({ variant: "primary", size: "lg" })}>
               Get in touch <ArrowRight />
             </Link>
-            {settings["contact.email"] ? (
-              <a href={`mailto:${settings["contact.email"]}`} className={buttonVariants({ variant: "ghost", size: "lg" })}>
-                {settings["contact.email"]}
+            {site.email ? (
+              <a href={`mailto:${site.email}`} className={buttonVariants({ variant: "ghost", size: "lg" })}>
+                {site.email}
               </a>
             ) : null}
           </div>

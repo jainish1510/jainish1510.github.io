@@ -7,24 +7,22 @@ import { CustomCursor } from "@/components/interaction/cursor";
 import { EasterEggs } from "@/components/interaction/easter-eggs";
 import { KeyboardShortcuts } from "@/components/interaction/shortcuts";
 import { ThemeProvider, themeScript } from "@/components/interaction/theme";
-import { env } from "@/lib/env";
 import { listSocialLinks } from "@/lib/repositories/personal";
-import { getSettings } from "@/lib/settings";
+import { getSite, siteUrl } from "@/lib/site";
 import "./globals.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSettings();
-  const name = settings["site.name"];
+export function generateMetadata(): Metadata {
+  const site = getSite();
   return {
-    metadataBase: new URL(env.siteUrl),
-    title: { default: `${name} — Research Studio`, template: `%s · ${name}` },
-    description: settings["site.description"],
-    applicationName: `${name} — Research Studio`,
-    authors: [{ name }],
-    creator: name,
+    metadataBase: new URL(siteUrl()),
+    title: { default: `${site.name} — Research Studio`, template: `%s · ${site.name}` },
+    description: site.description,
+    applicationName: `${site.name} — Research Studio`,
+    authors: [{ name: site.name }],
+    creator: site.name,
     alternates: { canonical: "/", types: { "application/rss+xml": "/rss.xml" } },
-    openGraph: { type: "website", siteName: name, locale: "en_US", url: "/" },
-    twitter: { card: "summary_large_image" },
+    openGraph: { type: "website", siteName: site.name, locale: "en_US", url: "/", images: [{ url: "/og/site.png", width: 1200, height: 630, alt: site.name }] },
+    twitter: { card: "summary_large_image", images: ["/og/site.png"] },
     robots: { index: true, follow: true },
   };
 }
@@ -37,9 +35,9 @@ export const viewport: Viewport = {
   colorScheme: "dark light",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [settings, socials] = await Promise.all([getSettings(), listSocialLinks()]);
-  const github = socials.find((s) => s.platform === "github")?.url;
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const site = getSite();
+  const github = listSocialLinks().find((s) => s.platform === "github")?.url;
 
   return (
     <html lang="en" data-theme="dark" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
@@ -55,17 +53,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             Skip to content
           </a>
           {children}
-          <CommandPalette githubUrl={github} resumeUrl={settings["resume.url"] || undefined} email={settings["contact.email"] || undefined} />
+          <CommandPalette githubUrl={github} resumeUrl={site.resumeUrl || undefined} email={site.email || undefined} />
           <KeyboardShortcuts />
           <EasterEggs />
           <CustomCursor />
-          <Toaster
-            position="bottom-right"
-            theme="system"
-            toastOptions={{
-              className: "!rounded-xl !border-line-strong !bg-surface !text-fg !shadow-2xl !font-sans",
-            }}
-          />
+          <Toaster position="bottom-right" theme="system" toastOptions={{ className: "!rounded-xl !border-line-strong !bg-surface !text-fg !shadow-2xl !font-sans" }} />
         </ThemeProvider>
       </body>
     </html>
