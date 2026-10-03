@@ -1,108 +1,414 @@
 # Jainish Patel — Research Studio
 
-A personal research studio and digital publication: portfolio, research lab, interactive biography and a real, database-backed blog with a full admin CMS. It runs entirely locally on **Next.js + Prisma + SQLite**. External services (GitHub, Spotify, YouTube) are optional extras.
+A personal website that is three things at once:
 
-```
-Browser ─▶ Next.js 16 (App Router, Server Actions, Route Handlers) ─▶ Prisma 7 ─▶ SQLite (data/portfolio.db)
-                         │
-                         ├─ optional ─▶ GitHub API   (widget, cached in SQLite)
-                         ├─ optional ─▶ Spotify API  (widget, demo fallback)
-                         └─ optional ─▶ YouTube/Vimeo/CodePen… embeds (click-to-load)
-```
+1. **A portfolio**: your projects, research, experience and story.
+2. **A publication**: a real blog where readers can like, save, share and comment.
+3. **A control room** (`/admin`): where you write posts and edit everything on the site, **without touching any code**.
+
+Everything runs on your own computer with a small built-in database. You don't need to sign up for any online service, and you don't need to be a programmer to run it.
+
+> **In one sentence:** install Node.js once, double-click `start.bat` (Windows) or `start.command` (Mac), and the site opens in your browser.
 
 ---
 
-## Quick start
+## Contents
 
-Requirements: **Node 22.12+** (Node 22 LTS or 24) and npm. Prisma 7, better-sqlite3 13, Mermaid and Vitest all require it; on Node 20 the install warns `EBADENGINE` and the native SQLite driver will not build. With nvm: `nvm install 22 && nvm use 22` (an `.nvmrc` is included).
+1. [What you need](#1-what-you-need)
+2. [Step-by-step setup (first time only)](#2-step-by-step-setup-first-time-only)
+3. [Starting and stopping the site every day](#3-starting-and-stopping-the-site-every-day)
+4. [Your first ten minutes in the admin](#4-your-first-ten-minutes-in-the-admin)
+5. [Making the site yours](#5-making-the-site-yours)
+6. [Backing up your work](#6-backing-up-your-work)
+7. [Troubleshooting](#7-troubleshooting)
+8. [Optional extras: GitHub and Spotify](#8-optional-extras-github-and-spotify)
+9. [Putting the site on the internet](#9-putting-the-site-on-the-internet)
+10. [Glossary](#10-glossary)
+11. [Technical reference (for developers)](#11-technical-reference-for-developers)
 
-```bash
-npm install                 # also runs `prisma generate`
-cp .env.example .env        # then set SESSION_SECRET and ADMIN_PASSWORD
-npm run setup               # migrate → generate → seed (creates data/portfolio.db)
-npm run dev                 # http://localhost:3000
+---
+
+## 1. What you need
+
+| You need | Why | Cost |
+| --- | --- | --- |
+| A Windows, Mac or Linux computer | It runs the site | — |
+| **Node.js, version 22.12 or newer** | The engine that runs the site | Free |
+| An internet connection (first time only) | To download the site's building blocks | — |
+| About 1.5 GB of free disk space and about 10 minutes | The downloaded building blocks are large | — |
+
+You do **not** need Git, a database, an account anywhere, or any programming knowledge.
+
+---
+
+## 2. Step-by-step setup (first time only)
+
+### Step 1 — Install Node.js
+
+1. Go to **https://nodejs.org**.
+2. Click the big green button labelled **LTS** (it says "Recommended for most users"). The version number must be **22 or higher**.
+3. Open the file you downloaded and click **Next** through the installer. Keep all the default choices.
+4. **Restart your computer**, or at least close every terminal window. A terminal that was already open will not notice the new Node.js.
+
+**Check that it worked.** Open a terminal:
+- **Windows:** press the Windows key, type `cmd`, press Enter.
+- **Mac:** press `⌘ Space`, type `Terminal`, press Enter.
+
+Type this and press Enter:
+
+```
+node -v
 ```
 
-Sign in at **`/admin`** with `ADMIN_EMAIL` / `ADMIN_PASSWORD` from `.env`. If `ADMIN_PASSWORD` is empty, the seed generates a random password and prints it once.
+You should see something like `v22.12.0` or higher. If you see a lower number (for example `v20.16.0`), the old Node.js is still active. See [Troubleshooting](#7-troubleshooting).
 
-Generate a session secret with:
+### Step 2 — Get the files
 
-```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+**Easiest way (no Git needed):**
+1. Open this project's page on GitHub.
+2. Click the green **Code** button, then **Download ZIP**.
+3. Unzip it somewhere easy to find, such as your Desktop. You should end up with a folder called `jainish1510.github.io` (or similar) that contains `package.json`, `start.bat` and `README.md`.
+
+> **Which version?** The new site lives on the branch named `main` once its pull request is merged. Until then, switch the branch dropdown on GitHub to `claude/confident-cori-pavlcb` *before* clicking Download ZIP.
+
+**If you already use Git:**
+```
+git clone https://github.com/jainish1510/jainish1510.github.io.git
+cd jainish1510.github.io
 ```
 
-### Database scripts
+### Step 3 — Start it
 
-| Script | What it does |
+Pick **one** of these:
+
+**A. Double-click (easiest)**
+- **Windows:** double-click **`start.bat`**.
+- **Mac:** double-click **`start.command`**. The first time, macOS may say it can't be opened because it is from an unidentified developer. Right-click the file, choose **Open**, then **Open** again.
+
+**B. Type it yourself**
+1. Open a terminal *inside the project folder*:
+   - **Windows:** open the folder in File Explorer, click the address bar at the top, type `cmd` and press Enter.
+   - **Mac:** right-click the folder and choose *New Terminal at Folder* (or drag the folder onto the Terminal icon).
+2. Run these two commands, one after the other:
+   ```
+   npm install
+   npm run dev
+   ```
+
+**What happens the first time** (this is automatic, so you don't have to do anything):
+
+1. `npm install` downloads the site's building blocks. It takes **2–5 minutes**, and it is normal for it to print a lot of text.
+2. `npm run dev` then:
+   - creates a private settings file called `.env` with random secret keys,
+   - creates the database (`data/portfolio.db`),
+   - fills it with starter content (sample articles, projects, your CV details),
+   - and starts the site.
+3. You will see a **box with your admin login**, like this:
+
+```
+  ┌────────────────────────────────────────────────────┐
+  │ YOUR ADMIN LOGIN  (shown once — save it)           │
+  │                                                    │
+  │ Address:   http://localhost:3000/admin             │
+  │ Email:     admin@example.com                       │
+  │ Password:  XA0aTFxhLjAc                            │
+  └────────────────────────────────────────────────────┘
+```
+
+**Copy the password somewhere safe.** If you lose it, it is also saved in the `.env` file (open it with Notepad), or you can [set a new one](#i-forgot-my-admin-password).
+
+### Step 4 — Open the site
+
+Wait until you see `Ready` in the terminal, then open your browser at:
+
+- **The website:** http://localhost:3000
+- **The admin area:** http://localhost:3000/admin (sign in with the email and password from the box)
+
+`localhost` means "this computer". Nobody else on the internet can see the site yet. Only you can, on this machine.
+
+---
+
+## 3. Starting and stopping the site every day
+
+| I want to… | Do this |
 | --- | --- |
-| `npm run db:migrate` | `prisma migrate dev`: create and apply a migration after editing `schema.prisma` |
-| `npm run db:deploy` | `prisma migrate deploy`: apply existing migrations (CI / production) |
-| `npm run db:generate` | `prisma generate`: regenerate the typed client into `src/generated/prisma` |
-| `npm run db:seed` | Wipe content tables and reseed (`-- --no-demo` skips demo comments, likes and views) |
-| `npm run db:studio` | Prisma Studio: browse the SQLite file |
-| `npm run db:reset` | Drop, re-migrate and reseed (development only) |
+| **Start** the site | Double-click `start.bat` / `start.command`, or run `npm run dev` in the project folder |
+| **Stop** the site | Click the terminal window and press **Ctrl + C** (then `Y` and Enter if Windows asks). Closing the window also works. |
+| **See** the site | Browser → http://localhost:3000 |
+| **Write or edit** | Browser → http://localhost:3000/admin |
 
-The seed **refuses to run when `NODE_ENV=production`** unless you pass `--force`.
+Starting again takes a few seconds. Your content is kept between runs.
+
+The site only works while that terminal window is open. If you close it, the site stops (this is normal).
 
 ---
 
-## Environment variables
+## 4. Your first ten minutes in the admin
+
+Go to http://localhost:3000/admin and sign in. Here is the left-hand menu:
+
+| Menu item | What it is for |
+| --- | --- |
+| **Dashboard** | A summary: views, drafts, comments waiting for you |
+| **Posts** | All your blog posts (published, drafts, archived) |
+| **Comments** | Approve or reject what readers write |
+| **Media** | Your uploaded pictures and videos |
+| **Tags & categories** | Organise posts |
+| **Analytics** | Which posts are read, and where visitors come from |
+| **Messages** | Notes sent through the Contact page |
+| **Projects, Research, Experience, Skills** | Your portfolio entries |
+| **Personal content** | The "Currently" block, your journey timeline, books, interests, goals, social links |
+| **Widgets** | Switch the Spotify, GitHub, clock and fact boxes on or off |
+| **Site settings** | Your name, headline, About text, contact email, menu links |
+
+### Write and publish your first post
+
+1. Click **New post** (the white button at the top left, or press **C**).
+2. Type a **title** and a **subtitle** at the top.
+3. Write in the big box below. Use the toolbar for headings, bold, links, lists, code, equations, tables, images and videos. You can also **paste or drag a picture** straight into the text and it uploads for you.
+4. The right half of the screen shows the **live preview** of what readers will see. Use the buttons at the top (**Write / Split / Preview**) to switch layouts.
+5. Open the **settings panel** (the icon at the top right) to choose a **category**, add **tags**, pick a **cover image** and write a short **excerpt**.
+6. Your work **saves itself** as a draft every few seconds. You can also press **Ctrl + S** (**⌘ S** on Mac).
+7. When you are happy, click **Publish**. A small checklist appears. Click **Publish now**.
+8. Click **View** in the green message that appears. Your post is live on the site.
+
+### Add a picture or video
+- In a post: click the picture icon in the toolbar, or paste or drag the file in.
+- Or go to **Media** → **Upload**. Afterwards, click a file and fill in the **alt text** (a short description for people who can't see the image). It improves accessibility and search results.
+- Allowed types: PNG, JPEG, WebP, GIF, AVIF, MP4, WebM. Maximum 12 MB each.
+- For YouTube, use the film icon in the toolbar and paste the video's link.
+
+### Moderate comments
+Comments from readers are **not shown publicly until you approve them.**
+1. Go to **Comments**. The **Pending** tab holds new ones.
+2. Click **Approve**, **Reject** or **Spam** on each. You can tick several and act on them together.
+3. Click **Reply** to answer as the author. Replying approves the comment you answer.
+
+### Change what visitors see on the home page
+- **Name, headline and the one-line intro:** Site settings → *Identity* and *Homepage*.
+- **The "Currently" box** (studying, building, learning, location): Personal content → *Currently*.
+- **Hide a section of the home page:** Site settings → *Homepage* → switch it off.
+
+### Change your admin password
+Open a terminal in the project folder and run (put your own password in the quotes; it must be at least 12 characters):
+```
+npm run admin:password -- "my new long password"
+```
+
+---
+
+## 5. Making the site yours
+
+The starter content is built from the CV details that were in this project. Anything that could not be known is **clearly marked** so that nothing false is shown as fact.
+
+**Find the placeholders and replace them:**
+
+| What you will see | Where to change it |
+| --- | --- |
+| Badges saying **"details pending"** on a project | Admin → Projects → open the project → fill in the sections → untick *"Mark as details pending"* |
+| Research marked **"placeholder"** | Admin → Research |
+| `[Placeholder]` text (for example in goals or availability) | Admin → Personal content → *Goals*, or Site settings → *Contact* |
+| The portrait box labelled **"placeholder"** on the About page | Admin → Media → upload a photo, set its folder to **profile** |
+| Sample articles labelled **"demonstration content"** | Admin → Posts → edit or delete them, and write your own |
+| Comments from readers named **"(demo)"**, and the sample view numbers | Delete them in Admin → Comments, or reset without them (see below) |
+| Project links (GitHub / live demo) that are empty | Admin → Projects |
+
+**Start over with a clean slate and no demo comments, likes or views:**
+```
+npm run db:seed -- --no-demo
+```
+> ⚠️ This **replaces all content** with the starter content. Don't run it after you've written your own posts unless you have [a backup](#6-backing-up-your-work).
+
+---
+
+## 6. Backing up your work
+
+Everything you create lives in **one folder: `data`** inside the project folder.
+
+- `data/portfolio.db`: all posts, comments, settings and content
+- `data/uploads/`: all the images and videos you uploaded
+
+**To back up:** stop the site, then copy the whole `data` folder somewhere safe (USB drive, cloud storage). Do this regularly, and always before experimenting.
+
+**To restore:** stop the site, replace the `data` folder with your backup, start again.
+
+Also keep a copy of the `.env` file somewhere private. It holds your secrets. Don't share it or upload it anywhere public.
+
+---
+
+## 7. Troubleshooting
+
+### `node -v` shows a number lower than 22 (for example v20.16.0)
+Your computer is still using an old Node.js.
+1. Install the **LTS** version from https://nodejs.org (it must say 22 or higher).
+2. **Close every terminal window** and open a new one. Run `node -v` again.
+3. Still old? Another copy is first in your system's path. Uninstall the old Node.js (Windows: *Settings → Apps*), then reinstall the new one. If you use `nvm`: `nvm install 22` then `nvm use 22`.
+4. After upgrading, **delete the `node_modules` folder** and run `npm install` again. The database driver is built for one specific Node version, so an old copy won't work.
+
+### `npm install` prints a wall of yellow `EBADENGINE` warnings, or stops with an error mentioning "engine"
+Same cause as above: Node.js is too old. The project deliberately stops early so you get a clear message instead of a half-working site.
+
+### "`npm` is not recognized" / "command not found"
+Node.js isn't installed, or you didn't restart the terminal after installing. See Step 1.
+
+### "Port 3000 is already in use"
+Something else (often a previous run of this site) is using that port.
+- Close other terminal windows running the site, then try again.
+- Or use another port: `npm run dev -- -p 3001` and visit http://localhost:3001.
+
+### I forgot my admin password
+Run this in the project folder (any password of 12+ characters):
+```
+npm run admin:password -- "my new long password"
+```
+Your original generated one is also written in the `.env` file under `ADMIN_PASSWORD` (only until you change it).
+
+### The email in the admin login is `admin@example.com`. Can I change it?
+Yes. Before the **very first** start, create a file called `.env` (copy `.env.example`), set `ADMIN_EMAIL="you@yourmail.com"` and `ADMIN_NAME="Your Name"`, save it, then start. After the first start, use *Admin → Site settings* for display details; the login email is set when the database is created. To redo it, see "Start completely fresh" below.
+
+### Windows says "running scripts is disabled" (PowerShell)
+Use **Command Prompt** (`cmd`) instead of PowerShell, or double-click `start.bat`.
+
+### Windows Firewall / antivirus asks about "Node.js"
+Click **Allow** for *private networks*. The site only needs to talk to your own computer.
+
+### The page is blank, or looks broken, right after starting
+The first page load after starting compiles the site and can take 10–20 seconds. Wait and refresh. If it still fails, stop the site (Ctrl + C) and start it again.
+
+### Pictures I uploaded are missing
+Make sure the `data/uploads` folder is still there. Uploads live there, not in the database.
+
+### The GitHub or Spotify box says "Currently unavailable"
+That's expected without internet access or the optional keys. The rest of the site keeps working. See [Optional extras](#8-optional-extras-github-and-spotify).
+
+### Start completely fresh (this deletes everything you wrote!)
+1. Stop the site (Ctrl + C).
+2. Delete the `data` folder and the `.env` file.
+3. Start again. A new `.env`, database and starter content are created, with a new admin password shown in the box.
+
+### Something else
+Copy the **whole** error text from the terminal. The last 20 lines are the most useful. That is what anyone helping you will need.
+
+---
+
+## 8. Optional extras: GitHub and Spotify
+
+The site works fully without these. Open `.env` in Notepad (Windows) or TextEdit (Mac). It is in the project folder, and may be hidden because its name starts with a dot. Then add the values you want, save, and restart the site.
+
+**GitHub activity on the About page**
+- Works automatically with your public profile (`GITHUB_USERNAME`, default `jainish1510`).
+- For the full contribution calendar, create a token at github.com → *Settings → Developer settings → Personal access tokens*. It needs **no permissions**. Paste it as `GITHUB_TOKEN="…"`.
+
+**Spotify "now playing"**
+Without keys, the box shows a clearly labelled **demo track** that you choose in *Admin → Widgets*. To show what you're really listening to:
+1. Create an app at https://developer.spotify.com/dashboard and note its **Client ID** and **Client Secret**.
+2. Authorise it once with the scopes `user-read-currently-playing user-read-recently-played`, and obtain a **refresh token**.
+3. Put all three in `.env` as `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`.
+
+---
+
+## 9. Putting the site on the internet
+
+Running on your own computer (`localhost`) is private. To let the world see it:
+
+> ⚠️ **GitHub Pages cannot host this site.** This repository used to be a GitHub Pages site, but the new site has a database and an admin area, which need a real server. A static host such as GitHub Pages can only show fixed files.
+
+Good options (all need a **persistent disk** so your database and uploads survive restarts):
+
+- A small **VPS** (DigitalOcean, Hetzner, Linode)
+- **Fly.io** (with a volume), **Railway**, or **Render** (with a disk)
+
+On the server, with Node 22.12+ installed:
+
+```bash
+npm ci
+cp .env.example .env
+#   edit .env:
+#     NEXT_PUBLIC_SITE_URL="https://your-domain.com"
+#     SESSION_SECRET="<64 random characters>"
+#     ADMIN_EMAIL, ADMIN_PASSWORD (12+ characters)
+npm run build
+npm start          # creates the database on first run, then serves on port 3000
+```
+
+Put it behind HTTPS (most hosts do this for you). Back up the `data` folder regularly. Before going live, delete the demo posts and comments (Admin) or run `npm run db:seed -- --no-demo` once on a fresh server.
+
+---
+
+## 10. Glossary
+
+| Word | Plain meaning |
+| --- | --- |
+| **Terminal / command line** | A window where you type commands. Called *Command Prompt* on Windows and *Terminal* on Mac. |
+| **Node.js** | The free engine that runs the site. Installed once. |
+| **npm** | Comes with Node.js. It downloads the building blocks (`npm install`) and runs commands (`npm run …`). |
+| **localhost** | "This computer". `http://localhost:3000` is the site running on your machine. |
+| **Admin** | The private area at `/admin` where you edit everything. |
+| **Draft / Published / Archived** | A draft is private; published is public; archived is hidden but kept. |
+| **Slug** | The part of a post's web address, for example `my-first-post` in `/blog/my-first-post`. |
+| **Markdown** | A simple way to format text (`## Heading`, `**bold**`). The toolbar writes it for you. |
+| **`.env` file** | A private settings file with secrets. Never share it. |
+| **Database** | The file `data/portfolio.db` where all your content is stored. |
+| **Alt text** | A short description of an image for people using screen readers. |
+
+---
+
+## 11. Technical reference (for developers)
+
+### Commands
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server. **`predev` runs `scripts/ensure-setup.mjs` first**: checks Node ≥ 22.12, creates `.env` with random secrets, runs migrations, seeds a brand-new database. Idempotent and quiet when nothing needs doing. |
+| `npm run build` / `npm start` | Production build / server (`prestart` runs the same setup check) |
+| `npm run setup` | Explicit migrate → generate → seed |
+| `npm run admin:password -- "…"` | Change the admin password only |
+| `npm run db:migrate` | `prisma migrate dev` after editing `schema.prisma` |
+| `npm run db:deploy` | Apply existing migrations |
+| `npm run db:generate` | Regenerate the Prisma client into `src/generated/prisma` |
+| `npm run db:seed [-- --no-demo]` | Wipe content tables and reseed (refuses in production without `--force`) |
+| `npm run db:studio` | Browse the SQLite file with Prisma Studio |
+| `npm run db:reset` | Drop, migrate, reseed (development only) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest unit and integration tests (fresh SQLite at `data/test.db`) |
+| `npm run test:e2e` | Playwright end-to-end tests (isolated `data/e2e.db`, port 3100) |
+
+`.npmrc` sets `engine-strict=true`, so installing on an unsupported Node fails fast with a clear message.
+
+### Dependency policy
+All dependencies are on their latest stable releases (Next.js 16, React 19.3, Prisma 7.10, Tailwind 4, TypeScript 7, Vitest 5, Playwright 1.63, Three.js, Motion, Recharts, Mermaid). The one deliberate exception is Prisma: the registry's `latest` tag currently points at an 8.0 *release candidate*, so the project stays on the newest stable 7.x. Check with `npm outdated`.
+
+### Environment variables
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `DATABASE_URL` | yes | SQLite file, default `file:./data/portfolio.db` |
-| `NEXT_PUBLIC_SITE_URL` | yes in prod | Canonical origin for SEO, sitemap, RSS and OpenGraph |
-| `SESSION_SECRET` | yes in prod (≥ 32 chars) | Signs anonymous visitor IDs and salts IP hashes. Production refuses to start without it. |
-| `ADMIN_EMAIL` | seed only | Admin account email |
-| `ADMIN_PASSWORD` | seed only | Admin password (≥ 12 chars). If empty, a random one is printed once. |
-| `ADMIN_NAME` | seed only | Display name for the author |
-| `GITHUB_USERNAME` | optional | Defaults to `jainish1510` |
-| `GITHUB_TOKEN` | optional | Raises rate limits and enables the real contribution calendar (needs no scopes) |
-| `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` / `SPOTIFY_REFRESH_TOKEN` | optional | Live "now playing". Without them the widget shows a demo track with a visible **demo data** badge. |
-| `UPLOAD_DIR` | optional | Where uploads are stored, default `data/uploads` |
+| `DATABASE_URL` | yes (default set) | SQLite file, default `file:./data/portfolio.db` |
+| `NEXT_PUBLIC_SITE_URL` | in production | Canonical origin for SEO, sitemap, RSS and OpenGraph |
+| `SESSION_SECRET` | production (≥ 32 chars) | Signs anonymous visitor IDs, salts IP hashes. Generated automatically in development. |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME` | first run | Admin account bootstrap (password ≥ 12 chars) |
+| `GITHUB_USERNAME`, `GITHUB_TOKEN` | optional | GitHub widget |
+| `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | optional | Live "now playing" |
+| `UPLOAD_DIR` | optional | Upload location, default `data/uploads` |
 
 No credentials are committed. `.env` and `data/` are git-ignored.
-
----
-
-## What's inside
 
 ### Public site
 | Route | |
 | --- | --- |
-| `/` | Cinematic hero with a WebGL constellation (mouse parallax, scroll dolly, reduced-motion and no-WebGL SVG fallback), "Currently", featured projects, research, writing, about, contact |
-| `/about` | Story, interactive journey timeline, education, experience, recognition, interests, goals, and widgets: Spotify, GitHub, local clock, random fact, currently learning, orbiting favorite tools |
-| `/projects`, `/projects/[slug]` | Filterable explorer (ALL / ML / RESEARCH / WEB / CLOUD / AI / SYSTEMS) with depth-on-hover cards. Detail pages cover problem, motivation, architecture (Mermaid), how it works, challenges, results, lessons, gallery and demo. |
-| `/research`, `/research/[slug]` | Interactive force-directed research graph (click an area to filter related research, projects, writing and technologies) plus academic-style entries |
-| `/experience` | Scroll-driven career timeline and the **technology universe** (bubble size = real usage) |
-| `/blog`, `/blog/[slug]` | Publication index (featured, recent, most read, categories, tags, search) and the reading experience described below |
-| `/search` | Full search page; `⌘K` / `Ctrl K` anywhere opens the command palette |
-| `/bookmarks` | Saved articles (local + server, no account) |
-| `/contact` | Contact form (stored in SQLite, shown in admin) |
+| `/` | WebGL constellation hero (mouse parallax, scroll dolly, reduced-motion and no-WebGL SVG fallback), "Currently", featured projects, research, writing, about, contact |
+| `/about` | Story, journey timeline, education, experience, recognition, interests, goals, widgets (Spotify, GitHub, clock, random fact, learning, orbiting tools) |
+| `/projects`, `/projects/[slug]` | Filterable explorer with depth-on-hover cards; detail pages with problem, architecture (Mermaid), how it works, challenges, results, lessons, gallery, demo |
+| `/research`, `/research/[slug]` | Interactive force-directed research graph and academic-style entries |
+| `/experience` | Scroll-driven timeline and technology universe |
+| `/blog`, `/blog/[slug]` | Publication index and the reading experience: progress bar, table of contents, continue-reading, engagement bar, KaTeX, highlighted code, lightbox, embeds, Mermaid, interactive components, related posts, threaded comments |
+| `/search`, `/bookmarks`, `/contact` | Search (also `⌘K` / `Ctrl K`), saved articles, contact form |
 | `/rss.xml`, `/sitemap.xml`, `/robots.txt` | Feeds and SEO |
 
-**Article pages** include a sticky reading-progress bar, a live table of contents, "continue reading" (localStorage), a sticky engagement bar (like, comment, save, share), KaTeX math, highlighted code with copy buttons, an image lightbox with arrow-key paging, click-to-load video embeds, lazily rendered Mermaid, interactive components, related articles, previous/next navigation, and threaded comments (max 3 levels) with likes.
-
-### Admin CMS (`/admin`)
-- **Dashboard**: posts, drafts, views, comments, likes, bookmarks, a 30-day chart, the moderation queue and recent posts
-- **Posts**: filter, search and sort. The **editor** offers write / split / preview modes with live preview, a formatting toolbar, paste/drop image upload, a media picker, an embed dialog, an interactive-component inserter, autosave for drafts, local crash backup, revisions with restore, a publish checklist, scheduled publishing, SEO fields and a full-page preview.
-- **Comments**: pending / approved / spam / rejected, bulk actions, post filter, author replies
-- **Media library**: upload, preview, alt text, captions, folders (Blog / Projects / Research / Profile / Misc), dimensions, usage counts, copy-as-markdown
-- **Content**: one schema-driven manager for projects, research, experience, education, awards, skills, research areas, the "Currently" rows, journey, learning, facts, books, interests, goals and social links
-- **Tags & categories**, **Analytics** (views, likes and comments over time, most-read posts, referrers, devices, popular tags, project clicks, 7/30/90-day ranges, table view), **Messages**, **Widgets**, **Site settings** (identity, homepage sections, About copy, contact, navigation)
-
-Normal content never requires a code change.
-
----
-
-## Writing posts
-
-Posts are stored as Markdown (with extensions) in SQLite, never hard-coded in components.
+### Writing syntax
+Posts are stored as Markdown (with extensions) in SQLite.
 
 ````markdown
 ## Headings, **bold**, *italic*, ++underline++, `code`, [links](https://…)
-
-> Blockquotes, lists, tables (GFM), footnotes[^1]
 
 Inline math $E = mc^2$ and display math:
 
@@ -137,117 +443,55 @@ Callouts: note, tip, warning, demo.
 ::component[Optional title]{name="gaussian-explorer" mu="1.2"}
 ````
 
-**Interactive components** are registered in `src/components/content/component-slot.tsx`. Each is code-split, so a post only loads the components it uses. Bundled ones: `gaussian-explorer`, `sorting-visualizer`, `line-chart`, `uncertainty-sim`. Adding a Plotly chart or a custom demo means adding one file and one registry line.
+Interactive components are registered in `src/components/content/component-slot.tsx` and are code-split. Bundled: `gaussian-explorer`, `sorting-visualizer`, `line-chart`, `uncertainty-sim`.
 
----
-
-## Architecture
-
+### Architecture
 ```
-prisma/
-  schema.prisma          relational schema (User, Post, PostRevision, Tag, Category, Media,
-                         Comment, CommentLike, Like, Bookmark, View, Event, Project,
-                         ResearchProject, ResearchArea, Experience, Education, Award, Skill,
-                         SocialLink, PersonalWidget, NowItem, TimelineEvent, …)
-  migrations/            SQL migrations
-  seed.ts, seed-art.ts   seed data + generative cover art (rendered with sharp)
-  seed-content/*.md      demonstration articles
+prisma/            schema.prisma, migrations/, seed.ts, seed-art.ts, seed-content/*.md
+scripts/           ensure-setup.mjs (auto first-run setup), set-admin-password.ts
 src/
-  app/(public)/          public routes (route groups keep skeletons off detail pages so 404s are real)
-  app/admin/             login, (panel)/ protected pages, actions/ (server actions)
-  app/api/               JSON route handlers (search, engagement, comments, uploads, health…)
-  app/media/[...path]    serves uploads with range requests and a sandboxed CSP
-  components/            ui/, blog/, content/, portfolio/, research/, three/, widgets/, admin/, interaction/
-  lib/db                 Prisma client (the only SQLite-specific file)
-  lib/repositories       Repository pattern: posts, comments, engagement, media, portfolio, analytics, collections
-  lib/integrations       Adapter pattern: GitHub, Spotify (live + demo provider)
-  lib/content            Markdown pipeline, directives, embed factory, editor operations
-  lib/search             in-process weighted search index
-  lib/events             typed event bus (Observer): publish → revalidate pages, refresh search
-  lib/admin              declarative collection definitions → generated validators and forms (Factory)
-  lib/security           rate limiting, visitor IDs, spam scoring, request helpers
-tests/
-  unit/ integration/ e2e/
+  app/(public)/    public routes
+  app/admin/       login, (panel)/ protected pages, actions/ (server actions)
+  app/api/         route handlers (search, engagement, comments, uploads, health…)
+  app/media/       serves uploads with range requests and a sandboxed CSP
+  components/      ui, blog, content, portfolio, research, three, widgets, admin, interaction
+  lib/db           Prisma client (the only SQLite-specific file)
+  lib/repositories data access (Repository pattern)
+  lib/integrations GitHub and Spotify adapters (Adapter pattern; Spotify has a demo provider)
+  lib/content      Markdown pipeline, directives, embed factory, editor operations
+  lib/search       in-process weighted search index
+  lib/events       typed event bus (Observer): publish → revalidate pages, refresh search
+  lib/admin        declarative collection definitions → generated validators and forms (Factory)
+  lib/security     rate limiting, visitor IDs, spam scoring, request helpers
+tests/             unit, integration, e2e
 ```
+Strategy pattern: `render-strategy.ts` picks full / lite / static 3D quality per device.
 
-**Design patterns, where they earn their place:**
-- **Repository** for all database access (`src/lib/repositories`)
-- **Adapter** for external APIs (`MusicProvider` with a Spotify and a demo implementation, a normalized GitHub snapshot, embed providers)
-- **Strategy** for 3D rendering quality (`render-strategy.ts` picks full / lite / static per device)
-- **Observer** via the event bus (publishing triggers revalidation and search-index refresh)
-- **Factory** for embeds (`createEmbed`) and admin collections (field definitions → zod schemas → forms)
+**Moving off SQLite:** change `provider` in `schema.prisma`, swap `@prisma/adapter-better-sqlite3` for `@prisma/adapter-pg` / `@prisma/adapter-libsql` in `src/lib/db/client.ts`, regenerate migrations, and move uploads to object storage behind `src/lib/media/storage.ts`.
 
-### Moving off SQLite
-Enumerations are strings validated in the app, and JSON is avoided except for small widget configs. To move to PostgreSQL or Turso:
-1. Change `provider` in `schema.prisma` to `postgresql` (or keep `sqlite` for libSQL).
-2. Swap `@prisma/adapter-better-sqlite3` for `@prisma/adapter-pg` / `@prisma/adapter-libsql` in `src/lib/db/client.ts`.
-3. Regenerate migrations. Uploads in `data/uploads` would move to object storage behind `src/lib/media/storage.ts`.
-
----
-
-## Security
-
-- **Admin authentication**: scrypt password hashing. Opaque random session tokens are kept in an `httpOnly`, `SameSite=Lax` (Secure in production) cookie, and only the token's SHA-256 is stored. Sessions expire after 7 days and logout revokes them. Login is rate-limited in memory and in the database (failures persist across restarts), and the comparison is constant-time even for unknown emails.
-- **Authorization**: `src/proxy.ts` gives an early redirect, and `requireAdmin()` is the real check on every admin page, server action and admin route handler.
-- **CSRF**: Server Actions get Next.js's origin check. JSON mutation endpoints verify `Origin` against `Host`.
-- **XSS**: Markdown is sanitized with `rehype-sanitize` *before* KaTeX and highlighting run, and raw HTML is never parsed. Comments are plain text (control and bidi characters stripped) and rendered by React. Mermaid runs with `securityLevel: "strict"`. JSON-LD escapes `<`.
-- **Uploads**: types are detected from magic bytes (PNG, JPEG, WebP, GIF, AVIF, MP4, WebM; **no SVG**), with a 12 MB cap and random filenames. Path traversal is refused, and media is served with `nosniff` and a sandboxed CSP.
-- **Abuse controls**: per-IP rate limits on search, likes, bookmarks, views, comments, contact and uploads. Comments also get a honeypot, a minimum time-to-submit, length limits, spam scoring and a moderation queue.
-- **Privacy**: anonymous visitor IDs are HMAC-signed cookies, IPs are stored only as salted hashes, referrers only as hostnames, and bots are excluded from view counts.
-- **Headers**: CSP, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, and HSTS in production. Admin pages are `noindex`.
+### Security
+- **Admin auth:** scrypt hashing; opaque random session tokens in an `httpOnly`, `SameSite=Lax` cookie (Secure in production), only the SHA-256 stored; 7-day expiry; login rate-limited in memory and in the database.
+- **Authorization:** `src/proxy.ts` gives an early redirect; `requireAdmin()` is the real check on every admin page, server action and admin route.
+- **CSRF:** Server Actions use Next.js's origin check; JSON endpoints verify `Origin` against `Host`.
+- **XSS:** Markdown is sanitized with `rehype-sanitize` before KaTeX and highlighting, raw HTML is never parsed, comments are plain text, Mermaid runs in strict mode, JSON-LD escapes `<`.
+- **Uploads:** magic-byte type detection (no SVG), 12 MB cap, random filenames, traversal refused, served with `nosniff` and a sandboxed CSP.
+- **Abuse controls:** per-IP rate limits; comment honeypot, time-to-submit, length limits, spam scoring, moderation queue.
+- **Privacy:** HMAC-signed anonymous visitor cookie, salted IP hashes, referrer hostnames only, bots excluded from view counts.
+- **Headers:** CSP, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, HSTS in production; admin pages `noindex`.
 
 `npm audit` reports advisories in `mysql2`, a transitive dependency of the Prisma CLI. It is development tooling that this app never loads (SQLite only).
 
----
+### Testing
+- **Unit:** Markdown pipeline (XSS, math, directives, TOC), embeds, search, validation, collection-schema factory, editor operations, password hashing, visitor IDs, rate limiting, spam, upload detection, path traversal
+- **Integration (real SQLite):** posts (create, edit, publish, schedule, archive, revisions, tags, slugs, related), likes (including concurrent duplicates), view de-duplication, bookmarks, comments (moderation, depth cap), sessions, collections, settings, media upload
+- **E2E (Playwright):** login → create post → toolbar and live preview → tags and category → save draft → draft is a real 404 → full preview → publish → public article → like persists → save → comment → moderate → visible → bookmarks → search → logout; plus public smoke tests on desktop and mobile viewports
 
-## Testing
+If Playwright's browser download is blocked, use an installed Chromium: `PW_CHROMIUM_PATH=/path/to/chrome npm run test:e2e`.
 
-```bash
-npm run typecheck
-npm test                    # Vitest: unit + integration (fresh SQLite at data/test.db)
-npm run test:e2e            # Playwright: isolated data/e2e.db on port 3100
-```
+### Content provenance
+- **Real profile data** (education, roles, projects, recognitions, links) comes from the CV data that was in this repository before the rebuild. Specific claims such as "5K+ scans" or "ROUGE +21%" are copied from that source.
+- Anything not in that source is marked ("details pending", "placeholder", `[Placeholder]`).
+- The five blog posts, "(demo)" commenters, and seeded likes, views and bookmarks are **demonstration content**, labelled as such. No publications, awards or employment were invented.
 
-- **Unit**: Markdown pipeline (XSS, math, directives, TOC), embeds, text utilities, search ranking/typos/AND semantics, validation, collection-schema factory, editor operations, password hashing, visitor-ID signing, rate limiting, spam scoring, upload detection, path traversal
-- **Integration** (real SQLite): create/edit/publish/schedule/archive posts, revisions, tags, slugs, related posts, search visibility, likes (including concurrent duplicates), view de-duplication, bookmarks, comment moderation and depth cap, sessions, generic collections, settings, media upload
-- **E2E**: login (wrong then right password) → create post → toolbar + live preview → tags/category → save draft → draft is a real 404 → full preview → publish confirmation → public article → like persists → save → comment → moderate → comment visible → bookmarks → search → logout. There are also public smoke tests on desktop and mobile viewports.
-
-If Playwright's browser download is blocked, point it at an installed Chromium with `PW_CHROMIUM_PATH=/path/to/chrome npm run test:e2e`.
-
----
-
-## Deployment
-
-This is a **Node.js server application** (SQLite, server actions, uploads). It cannot run on static hosts such as **GitHub Pages**, which this repository was originally configured for. Deploy it anywhere with a persistent disk and Node 22.12+, such as a VPS, Fly.io (with a volume), Railway or Render:
-
-```bash
-npm ci
-npm run db:deploy && npm run db:generate
-npm run db:seed -- --no-demo   # first deploy only; requires ADMIN_PASSWORD
-npm run build && npm start
-```
-
-Back up `data/` (database + uploads). On serverless platforms without a persistent disk, use Turso/libSQL or Postgres (see above) and object storage for uploads.
-
-### Spotify refresh token
-1. Create an app at developer.spotify.com and add a redirect URI.
-2. Authorize once with scopes `user-read-currently-playing user-read-recently-played`.
-3. Exchange the code for tokens and put the `refresh_token` in `.env`.
-
----
-
-## Content provenance
-
-- **Real profile data** (education, roles, projects, recognitions, links) comes from the CV data in this repository before the rebuild (`data/cvData.ts`). Specific claims such as "5K+ scans" or "ROUGE +21%" are copied from that source.
-- Anything not in that source is marked: projects and research show **"details pending" / "placeholder"** badges, settings and goals carry `[Placeholder]` text, and the portrait is an abstract placeholder.
-- The five blog posts, all comments by "(demo)" readers, and the seeded likes, views and bookmarks are **demonstration content** and are labeled that way on the site. Clear them with `npm run db:seed -- --no-demo` or delete them in the admin.
-- No publications, awards or employment were invented.
-
----
-
-## Small delights
-
-- `⌘K` / `Ctrl K` command palette · `/` search · `?` (`Shift + /`) keyboard shortcuts · `G` then `H/A/P/R/B/E/S` to navigate · `T` toggles the theme
-- Type `sudo` in the palette for **developer mode** (WebGL, API, database status)
-- The Konami code unlocks a hidden note
-- Every cover image is generated from code, seeded by its slug
+### Small delights
+`⌘K` / `Ctrl K` command palette · `/` search · `?` keyboard shortcuts · `G` then `H/A/P/R/B/E/S` to navigate · `T` toggles the theme · type `sudo` in the palette for developer mode · try the Konami code · every cover image is generated from code.
