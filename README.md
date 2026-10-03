@@ -14,7 +14,7 @@ Browser ─▶ Next.js 16 (App Router, Server Actions, Route Handlers) ─▶ Pr
 
 ## Quick start
 
-Requirements: **Node 20.9+** (developed on Node 22) and npm.
+Requirements: **Node 22.12+** (Node 22 LTS or 24) and npm. Prisma 7, better-sqlite3 13, Mermaid and Vitest all require it; on Node 20 the install warns `EBADENGINE` and the native SQLite driver will not build. With nvm: `nvm install 22 && nvm use 22` (an `.nvmrc` is included).
 
 ```bash
 npm install                 # also runs `prisma generate`
@@ -218,7 +218,7 @@ If Playwright's browser download is blocked, point it at an installed Chromium w
 
 ## Deployment
 
-This is a **Node.js server application** (SQLite, server actions, uploads). It cannot run on static hosts such as **GitHub Pages**, which this repository was originally configured for. Deploy it anywhere with a persistent disk and Node 20+, such as a VPS, Fly.io (with a volume), Railway or Render:
+This is a **Node.js server application** (SQLite, server actions, uploads). It cannot run on static hosts such as **GitHub Pages**, which this repository was originally configured for. Deploy it anywhere with a persistent disk and Node 22.12+, such as a VPS, Fly.io (with a volume), Railway or Render:
 
 ```bash
 npm ci
