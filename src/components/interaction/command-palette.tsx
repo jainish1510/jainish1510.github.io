@@ -5,7 +5,6 @@ import { Dialog } from "radix-ui";
 import {
   ArrowRight,
   AtSign,
-  BookOpen,
   Bookmark,
   Briefcase,
   CornerDownLeft,
@@ -14,19 +13,18 @@ import {
   FolderGit2,
   Home,
   Keyboard,
-  LayoutDashboard,
   Loader2,
   Moon,
-  PenLine,
   Search,
   Sun,
   Terminal,
   User,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { GitHubIcon } from "@/components/brand/icons";
 import { Kbd } from "@/components/ui/primitives";
+import { loadSearchIndex } from "@/lib/search/client";
 import type { SearchResult } from "@/lib/search/engine";
 import { emitUI, UI_EVENTS } from "./events";
 import { useTheme } from "./theme";
@@ -46,11 +44,9 @@ export function CommandPalette({ githubUrl, resumeUrl, email }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState("");
   const router = useRouter();
-  const pathname = usePathname();
   const { theme, toggle } = useTheme();
-  const abort = useRef<AbortController | null>(null);
-  const inAdmin = pathname.startsWith("/admin");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -71,30 +67,36 @@ export function CommandPalette({ githubUrl, resumeUrl, email }: Props) {
     };
   }, []);
 
-  // Debounced server search; stale requests are aborted.
+  // Search runs in the browser against the prebuilt /search-index.json.
   useEffect(() => {
     const q = query.trim();
     if (q.length < 2) {
       setResults([]);
+      setSelected("");
       setLoading(false);
       return;
     }
     setLoading(true);
+    let cancelled = false;
     const t = setTimeout(async () => {
-      abort.current?.abort();
-      const controller = new AbortController();
-      abort.current = controller;
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&limit=8`, { signal: controller.signal });
-        const json = (await res.json()) as { results: SearchResult[] };
-        setResults(json.results ?? []);
+        const index = await loadSearchIndex();
+        if (!cancelled) {
+          const found = index.search(q, { limit: 8 });
+          setResults(found);
+          // Without this, the highlight stays on whatever item was first before the results arrived.
+          setSelected(found[0] ? `${found[0].title} ${found[0].id}` : "");
+        }
       } catch {
-        if (!controller.signal.aborted) setResults([]);
+        if (!cancelled) setResults([]);
       } finally {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    }, 140);
-    return () => clearTimeout(t);
+    }, 100);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
   }, [query]);
 
   const run = useCallback((fn: () => void) => {
@@ -125,7 +127,7 @@ export function CommandPalette({ githubUrl, resumeUrl, email }: Props) {
           aria-describedby={undefined}
         >
           <Dialog.Title className="sr-only">Command palette</Dialog.Title>
-          <Command label="Command palette" shouldFilter={query.trim().length < 2} loop className="flex max-h-[min(70vh,34rem)] flex-col">
+          <Command label="Command palette" shouldFilter={query.trim().length < 2} value={selected} onValueChange={setSelected} loop className="flex max-h-[min(70vh,34rem)] flex-col">
             <div className="flex items-center gap-3 border-b border-line px-4">
               {loading ? <Loader2 className="size-4 animate-spin text-muted" /> : <Search className="size-4 text-muted" />}
               <Command.Input
@@ -161,20 +163,9 @@ export function CommandPalette({ githubUrl, resumeUrl, email }: Props) {
 
               {query.trim().length >= 2 && results.length > 0 ? (
                 <Command.Group heading="Search">
-                  <Item value={`see all results ${query}`} icon={<Search />} onSelect={() => go(`/search?q=${encodeURIComponent(query)}`)}>
+                  <Item value={`see all results ${query}`} icon={<Search />} onSelect={() => go(`/search/?q=${encodeURIComponent(query)}`)}>
                     See all results for “{query}”
                   </Item>
-                </Command.Group>
-              ) : null}
-
-              {inAdmin ? (
-                <Command.Group heading="Admin">
-                  <Item icon={<PenLine />} onSelect={() => go("/admin/posts/new")} shortcut="N">New post</Item>
-                  <Item icon={<LayoutDashboard />} onSelect={() => go("/admin")}>Dashboard</Item>
-                  <Item icon={<FileText />} onSelect={() => go("/admin/posts")}>All posts</Item>
-                  <Item icon={<AtSign />} onSelect={() => go("/admin/comments")}>Comments</Item>
-                  <Item icon={<BookOpen />} onSelect={() => go("/admin/media")}>Media library</Item>
-                  <Item icon={<ArrowRight />} onSelect={() => go("/")}>View site</Item>
                 </Command.Group>
               ) : null}
 

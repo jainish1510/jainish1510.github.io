@@ -1,0 +1,55 @@
+# Site-wide settings. Edit the text after each colon, save, and push — the site rebuilds.
+# Lines starting with # are notes and are ignored.
+name: Jainish Patel
+url: https://jainish1510.github.io
+discipline: Computer Science
+roles: Researcher · Builder · Explorer
+description: Jainish Patel — computer science graduate student working across machine learning, medical imaging research and software systems. Projects, research notes and writing.
+heroIntro: I build systems at the intersection of machine learning, software, research, and emerging technology.
+location: Nashville, TN
+timezone: America/Chicago
+email: jainish.h.patel@vanderbilt.edu
+contactBlurb: Research collaborations, interesting engineering problems, or just a good conversation about machine learning — my inbox is open.
+availability: "[Placeholder] Open to research collaborations and internships — edit this line in content/site.yml"
+resumeUrl: ""
+blogHeroEyebrow: Thoughts / Research / Building
+blogHeroLine: Ideas, experiments, technical notes, research, and things I'm figuring out.
+footerMotto:
+  - Building.
+  - Researching.
+  - Learning.
+nav:
+  - label: About
+    href: /about
+  - label: Projects
+    href: /projects
+  - label: Research
+    href: /research
+  - label: Writing
+    href: /blog
+  - label: Experience
+    href: /experience
+  - label: Contact
+    href: /contact
+homeSections:
+  now: true
+  projects: true
+  research: true
+  writing: true
+  about: true
+  interests: true
+portrait:
+  src: /media/profile/profile-pattern.png
+  alt: Abstract pattern used as a profile placeholder
+  isPlaceholder: true
+aboutIntro: "I'm Jainish — a computer science graduate student at **Vanderbilt University**, working where machine learning meets real, messy data. Most of what I do sits between three things: research questions I can't stop thinking about, software that has to actually run, and the craft of explaining both clearly."
+aboutStory: |-
+  I studied computer science at **Middle Tennessee State University**, where I served as vice president of the ACM chapter and spent a lot of weekends at hackathons. Along the way I fine-tuned transformer models for legislative summarisation, built retrieval-augmented assistants for a health startup, and spent a summer building MRI analysis pipelines at the Vanderbilt Institute for Surgery and Engineering.
+
+  That summer changed how I think about machine learning. The hard problems were rarely the model — they were the data: where it came from, what it silently assumed, and whether anyone could reproduce the result six months later. This site is where I document that kind of thinking: experiments, notes, and the things I build to understand something better.
+comments:
+  enabled: false
+  repo: ""
+  repoId: ""
+  category: ""
+  categoryId: ""

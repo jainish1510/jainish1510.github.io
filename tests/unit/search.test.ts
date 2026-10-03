@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { SearchIndex, tokenize, withinOneEdit, type SearchDocument } from "@/lib/search/engine";
 
 const docs: SearchDocument[] = [
-  { id: "1", type: "post", title: "Understanding Variational Autoencoders", subtitle: "Experiments with VAE", url: "/blog/vae", tags: ["Generative Models"], category: "Research Notes", body: "The ELBO and the KL divergence term." },
-  { id: "2", type: "post", title: "Multi-Cloud Deployment", subtitle: "Control loops", url: "/blog/cloud", tags: ["Cloud"], category: "Building", body: "Reconciling desired state across AWS and GCP." },
-  { id: "3", type: "project", title: "VAE Benchmark", url: "/projects/vae", tags: ["PyTorch"], body: "Benchmarking autoencoders." },
-  { id: "4", type: "research", title: "Brain MRI Harmonisation", url: "/research/mri", tags: ["Medical Imaging"], body: "Site effects in multicenter studies." },
+  { id: "1", type: "post", title: "Understanding Variational Autoencoders", subtitle: "Experiments with VAE", url: "/blog/vae/", tags: ["Generative Models"], category: "Research Notes", body: "The ELBO and the KL divergence term." },
+  { id: "2", type: "post", title: "Multi-Cloud Deployment", subtitle: "Control loops", url: "/blog/cloud/", tags: ["Cloud"], category: "Building", body: "Reconciling desired state across AWS and GCP." },
+  { id: "3", type: "project", title: "VAE Benchmark", url: "/projects/vae/", tags: ["PyTorch"], body: "Benchmarking autoencoders." },
+  { id: "4", type: "research", title: "Brain MRI Harmonisation", url: "/research/mri/", tags: ["Medical Imaging"], body: "Site effects in multicenter studies." },
 ];
 
 describe("search engine", () => {
@@ -23,8 +23,7 @@ describe("search engine", () => {
   });
 
   it("ranks title matches above body matches", () => {
-    const results = index.search("autoencoders");
-    expect(results[0]?.id).toBe("1");
+    expect(index.search("autoencoders")[0]?.id).toBe("1");
   });
 
   it("supports prefix search while typing", () => {
@@ -49,5 +48,10 @@ describe("search engine", () => {
   it("returns nothing for empty queries", () => {
     expect(index.search("  ")).toEqual([]);
     expect(index.search("a")).toEqual([]);
+  });
+
+  it("survives a JSON round-trip (it is shipped as /search-index.json)", () => {
+    const shipped = new SearchIndex(JSON.parse(JSON.stringify(docs)));
+    expect(shipped.search("cloud")[0]?.id).toBe("2");
   });
 });

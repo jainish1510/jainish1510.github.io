@@ -1,0 +1,18 @@
+# The “Currently” block on the home page. icon: graduation | microscope | hammer | book | pin | music | spark | dot
+- label: Studying
+  value: M.S. Computer Science
+  detail: Vanderbilt University
+  icon: graduation
+- label: Research
+  value: Machine Learning · Medical Imaging
+  icon: microscope
+- label: Building
+  value: This studio — a portfolio & publication
+  detail: Next.js · SQLite · WebGL
+  icon: hammer
+- label: Learning
+  value: Reinforcement learning · fMRI analysis
+  icon: book
+- label: Based in
+  value: Nashville, TN
+  icon: pin

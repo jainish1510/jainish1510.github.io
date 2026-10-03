@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { EmptyState } from "@/components/ui/primitives";
 import { PROJECT_CATEGORIES } from "@/lib/constants";
-import type { ProjectCard as ProjectCardData } from "@/lib/repositories/portfolio";
+import type { ProjectCard as ProjectCardData } from "@/lib/store/types";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "./project-card";
 
@@ -20,7 +20,7 @@ export function ProjectExplorer({ projects }: { projects: ProjectCardData[] }) {
   }, [projects]);
   const visible = active === "ALL" ? projects : projects.filter((p) => p.category === active);
 
-  const select = (cat: string) => router.replace(cat === "ALL" ? "/projects" : `/projects?category=${cat.toLowerCase()}`, { scroll: false });
+  const select = (cat: string) => router.replace(cat === "ALL" ? "/projects/" : `/projects/?category=${cat.toLowerCase()}`, { scroll: false });
 
   return (
     <>

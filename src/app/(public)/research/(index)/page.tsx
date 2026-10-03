@@ -6,17 +6,17 @@ import { Badge, SectionHeading } from "@/components/ui/primitives";
 import { getResearchGraph, listResearch } from "@/lib/repositories/portfolio";
 import { formatRange } from "@/lib/utils";
 
-export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Research",
   description: "Research on medical imaging, generative models, NLP and decision-making under uncertainty.",
-  alternates: { canonical: "/research" },
+  alternates: { canonical: "/research/" },
 };
 
 const STATUS_TONE = { ONGOING: "accent", COMPLETED: "neutral", PLANNED: "warm" } as const;
 
-export default async function ResearchPage() {
-  const [research, graph] = await Promise.all([listResearch(), getResearchGraph()]);
+export default function ResearchPage() {
+  const research = listResearch();
+  const graph = getResearchGraph();
   return (
     <div className="pt-32 md:pt-44">
       <header className="container-page grid gap-10 md:grid-cols-[1.3fr_1fr] md:items-end">

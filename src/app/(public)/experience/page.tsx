@@ -5,11 +5,12 @@ import { SectionHeading } from "@/components/ui/primitives";
 import { listAwards, listExperience, listSkills } from "@/lib/repositories/portfolio";
 import { formatRange, lines } from "@/lib/utils";
 
-export const revalidate = 60;
-export const metadata: Metadata = { title: "Experience", description: "Career timeline, research roles, leadership and the technology I work with.", alternates: { canonical: "/experience" } };
+export const metadata: Metadata = { title: "Experience", description: "Career timeline, research roles, leadership and the technology I work with.", alternates: { canonical: "/experience/" } };
 
-export default async function ExperiencePage() {
-  const [experience, skills, awards] = await Promise.all([listExperience(), listSkills(), listAwards()]);
+export default function ExperiencePage() {
+  const experience = listExperience();
+  const skills = listSkills();
+  const awards = listAwards();
   return (
     <div className="pt-32 md:pt-44">
       <header className="container-page max-w-4xl">

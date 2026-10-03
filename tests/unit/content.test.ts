@@ -37,7 +37,7 @@ describe("markdown pipeline", () => {
     expect(out).toContain('class="language-mermaid"');
   });
 
-  it("supports GFM tables, footnotes and underline", () => {
+  it("supports GFM tables and underline", () => {
     const out = html("| a | b |\n|---|---|\n| 1 | 2 |\n\nThis is ++underlined++.");
     expect(out).toContain("<table>");
     expect(out).toContain("<u>underlined</u>");

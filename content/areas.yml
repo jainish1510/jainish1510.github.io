@@ -1,0 +1,40 @@
+# Research areas — the nodes of the interactive research map. `parent` makes a sub-area.
+- slug: machine-learning
+  name: Machine Learning
+  description: Learning from data — the thread through everything else.
+- slug: medical-imaging
+  name: Medical Imaging
+  parent: machine-learning
+  description: MRI analysis, harmonisation and reproducible pipelines.
+- slug: generative-models
+  name: Generative Models
+  parent: machine-learning
+  description: VAEs, latent spaces and the quality–smoothness trade-off.
+- slug: computer-vision
+  name: Computer Vision
+  parent: machine-learning
+  description: Understanding images and volumes.
+- slug: natural-language-processing
+  name: Natural Language Processing
+  parent: machine-learning
+  description: Summarisation, retrieval and language models.
+- slug: data-mining
+  name: Data Mining
+  description: Finding structure in large, noisy datasets.
+- slug: pattern-recognition
+  name: Pattern Recognition
+  parent: data-mining
+  description: Classical and statistical approaches to structure.
+- slug: uncertainty
+  name: Uncertainty
+  parent: data-mining
+  description: Decision-making when you don't know enough.
+- slug: ai-systems
+  name: AI Systems
+  description: Agents, tools and the software around models.
+- slug: cloud-and-systems
+  name: Cloud & Systems
+  description: Infrastructure that makes ML actually run.
+- slug: quantum-information
+  name: Quantum Information
+  description: Quantum computing and cryptography experiments.

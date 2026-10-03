@@ -5,8 +5,7 @@ import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring 
 import Link from "next/link";
 import type { PointerEvent } from "react";
 import { Badge } from "@/components/ui/primitives";
-import { trackEvent } from "@/lib/client/track";
-import type { ProjectCard as ProjectCardData } from "@/lib/repositories/portfolio";
+import type { ProjectCard as ProjectCardData } from "@/lib/store/types";
 import { cn } from "@/lib/utils";
 import { Cover } from "./cover";
 
@@ -55,7 +54,6 @@ export function ProjectCard({ project, index = 0, large = false }: { project: Pr
       <Link
         href={`/projects/${project.slug}`}
         data-cursor="project"
-        onClick={() => trackEvent("project_click", { entityType: "project", entityId: project.id })}
         className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-colors duration-300 hover:border-line-strong"
       >
         <div className={cn("relative overflow-hidden border-b border-line", large ? "aspect-[16/9]" : "aspect-[16/10]")}>

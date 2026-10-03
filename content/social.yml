@@ -1,0 +1,26 @@
+# Links in the footer and contact page. platform: github | linkedin | email | x | spotify | website | rss
+# Set `visible: false` to hide one.
+- platform: github
+  label: GitHub
+  url: https://github.com/jainish1510
+  handle: jainish1510
+  visible: true
+- platform: linkedin
+  label: LinkedIn
+  url: https://linkedin.com/in/jainishpatel
+  handle: jainishpatel
+  visible: true
+- platform: email
+  label: Email
+  url: mailto:jainish.h.patel@vanderbilt.edu
+  handle: jainish.h.patel@vanderbilt.edu
+  visible: true
+- platform: spotify
+  label: Spotify
+  url: https://open.spotify.com
+  handle: "[Placeholder]"
+  visible: false
+- platform: rss
+  label: RSS
+  url: /rss.xml
+  visible: true

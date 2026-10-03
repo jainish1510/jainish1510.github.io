@@ -1,0 +1,15 @@
+# Degrees. `expected: true` for one in progress.
+- institution: Vanderbilt University
+  degree: M.S.
+  field: Computer Science
+  location: Nashville, TN
+  endDate: 2026-12-15
+  expected: true
+- institution: Middle Tennessee State University
+  degree: B.S.
+  field: Computer Science
+  location: Murfreesboro, TN
+  endDate: 2025-08-08
+  notes:
+    - Dean's List
+    - Merit Scholarship Recipient

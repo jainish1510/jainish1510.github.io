@@ -1,0 +1,10 @@
+# Blog categories. Posts refer to these by `slug`.
+- slug: research-notes
+  name: Research Notes
+  description: Working notes from research and study.
+- slug: building
+  name: Building
+  description: Engineering write-ups and lessons from shipping things.
+- slug: essays
+  name: Essays
+  description: Longer thinking on ideas I keep returning to.

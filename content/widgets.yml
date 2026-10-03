@@ -1,0 +1,16 @@
+# About-page widgets. Turn one off with `enabled: false`.
+# spotify: a track you like (no Spotify login needed on a static site).
+# github: the profile whose public activity is shown (loaded in the visitor's browser).
+spotify:
+  enabled: true
+  title: Time
+  artist: Hans Zimmer
+  album: Inception (Music from the Motion Picture)
+  url: https://open.spotify.com/search/Time%20Hans%20Zimmer
+github:
+  enabled: true
+  username: jainish1510
+clock:
+  enabled: true
+randomFact:
+  enabled: true

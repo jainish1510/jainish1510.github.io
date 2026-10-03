@@ -1,0 +1,40 @@
+# The Journey timeline on the About page. kind: education | research | work | build | community | milestone
+- year: 2023
+  title: Vice President, ACM MTSU
+  kind: community
+  description: Started leading workshops and organising the chapter's first coding competition.
+- year: 2024
+  title: HackMT '24 — Winner
+  kind: build
+  description: "BlueAid: an LLM-based medical bill analysis tool deployed on AWS."
+  link: /projects/blueaid
+- year: 2024
+  title: AI Intern, MindWise Health
+  kind: work
+  description: Built a retrieval-augmented chatbot with MongoDB vector search and LangChain.
+- year: 2025
+  title: HackMT '25 — Hacker's Choice
+  kind: build
+  description: Led a four-person team building an AI elder-care system.
+  link: /projects/ai-elder-care-system
+- year: 2025
+  title: AI R&D Engineer, MTSU
+  kind: research
+  description: Fine-tuned transformers for legislative summarisation.
+- year: 2025
+  title: Research Intern, VISE
+  kind: research
+  description: Multicenter brain MRI pipelines and data harmonisation at Vanderbilt.
+  link: /research/cross-site-variability-in-brain-mri
+- year: 2025
+  title: B.S. Computer Science, MTSU
+  kind: education
+  description: Graduated; Dean's List and Merit Scholarship recipient.
+- year: 2025
+  title: Started M.S. at Vanderbilt
+  kind: education
+  description: Graduate study in computer science, focused on machine learning.
+- year: 2026
+  title: M.S. Computer Science (expected)
+  kind: education
+  description: Expected December 2026.

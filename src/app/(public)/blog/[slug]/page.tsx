@@ -7,60 +7,63 @@ import { ArticleBody } from "@/components/blog/article-body";
 import { ArticleHeader } from "@/components/blog/article-header";
 import { Comments } from "@/components/blog/comments";
 import { ContinueReading } from "@/components/blog/continue-reading";
-import { EngagementBar, ViewTracker } from "@/components/blog/engagement-bar";
+import { EngagementBar } from "@/components/blog/engagement-bar";
 import { PostRow } from "@/components/blog/post-items";
 import { TableOfContents } from "@/components/blog/table-of-contents";
-import { env } from "@/lib/env";
-import { getAdjacentPosts, getPublishedPostBySlug, getRelatedPosts } from "@/lib/repositories/posts";
+import { getAdjacentPosts, getPublishedPostBySlug, getRelatedPosts, listPublishedSlugs } from "@/lib/repositories/posts";
 import { articleSchema, breadcrumbSchema, JsonLd } from "@/lib/seo";
+import { absolute, getSite } from "@/lib/site";
 
-export const revalidate = 60;
+export const dynamicParams = false;
 
 type Props = { params: Promise<{ slug: string }> };
 
+export function generateStaticParams() {
+  return listPublishedSlugs().map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const post = await getPublishedPostBySlug(slug);
+  const post = getPublishedPostBySlug((await params).slug);
   if (!post) return { title: "Article not found" };
   const description = post.seoDescription ?? post.excerpt ?? post.subtitle ?? undefined;
   return {
     title: post.seoTitle ?? post.title,
     description,
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: { canonical: `/blog/${post.slug}/` },
     keywords: post.tags.map((t) => t.name),
     authors: [{ name: post.author.name }],
     openGraph: {
       type: "article",
       title: post.seoTitle ?? post.title,
       description,
-      url: `/blog/${post.slug}`,
+      url: `/blog/${post.slug}/`,
       publishedTime: post.publishedAt?.toISOString(),
       modifiedTime: post.updatedAt.toISOString(),
       authors: [post.author.name],
       tags: post.tags.map((t) => t.name),
       section: post.category?.name,
+      images: [{ url: `/og/posts/${post.slug}/image.png`, width: 1200, height: 630, alt: post.title }],
     },
-    twitter: { card: "summary_large_image", title: post.seoTitle ?? post.title, description },
+    twitter: { card: "summary_large_image", title: post.seoTitle ?? post.title, description, images: [`/og/posts/${post.slug}/image.png`] },
   };
 }
 
 export default async function ArticlePage({ params }: Props) {
-  const { slug } = await params;
-  const post = await getPublishedPostBySlug(slug);
+  const post = getPublishedPostBySlug((await params).slug);
   if (!post) notFound();
 
-  const [{ content, toc }, related, adjacent] = await Promise.all([
-    Promise.resolve(renderMarkdown(post.content)),
-    getRelatedPosts(post.id, 3),
-    getAdjacentPosts(post.publishedAt ?? post.createdAt),
-  ]);
-  const url = `${env.siteUrl}/blog/${post.slug}`;
+  const site = getSite();
+  const { content, toc } = renderMarkdown(post.content);
+  const related = getRelatedPosts(post.id, 3);
+  const adjacent = getAdjacentPosts(post.publishedAt!);
+  const url = absolute(`/blog/${post.slug}/`);
+  const comments = site.comments;
+  const commentsOn = comments.enabled && Boolean(comments.repo && comments.repoId && comments.category && comments.categoryId);
 
   return (
     <article>
-      <JsonLd data={articleSchema(post)} />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Writing", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }])} />
-      <ViewTracker postId={post.id} />
+      <JsonLd data={articleSchema(site, post)} />
+      <JsonLd data={breadcrumbSchema(site, [{ name: "Home", path: "/" }, { name: "Writing", path: "/blog/" }, { name: post.title, path: `/blog/${post.slug}/` }])} />
       <ContinueReading postId={post.id} />
 
       <ArticleHeader post={post} />
@@ -79,9 +82,10 @@ export default async function ArticlePage({ params }: Props) {
 
           <div className="sticky top-16 z-30 -mx-2 mb-10 border-y border-line bg-bg/85 px-2 py-1.5 backdrop-blur-md">
             <EngagementBar
-              post={{ id: post.id, slug: post.slug, title: post.title }}
+              post={{ slug: post.slug, title: post.title, subtitle: post.subtitle, category: post.category?.name ?? null, readingTime: post.readingTime, date: post.publishedAt?.toISOString() ?? null }}
               url={url}
-              initial={{ likes: post._count.likes, comments: post._count.comments, views: post._count.views, liked: false, saved: false }}
+              readingTime={post.readingTime}
+              commentsEnabled={commentsOn}
             />
           </div>
 
@@ -91,7 +95,7 @@ export default async function ArticlePage({ params }: Props) {
             <div className="mt-16 flex flex-wrap items-center gap-2 border-t border-line pt-8">
               <span className="eyebrow mr-2">Tags</span>
               {post.tags.map((t) => (
-                <Link key={t.id} href={`/blog?tag=${t.slug}`} className="rounded-full border border-line px-3 py-1 text-xs text-muted transition hover:border-line-strong hover:text-fg">
+                <Link key={t.slug} href={`/blog/?tag=${t.slug}`} className="rounded-full border border-line px-3 py-1 text-xs text-muted transition hover:border-line-strong hover:text-fg">
                   #{t.name}
                 </Link>
               ))}
@@ -100,7 +104,7 @@ export default async function ArticlePage({ params }: Props) {
 
           <nav aria-label="More articles" className="mt-10 grid gap-3 sm:grid-cols-2">
             {adjacent.previous ? (
-              <Link href={`/blog/${adjacent.previous.slug}`} className="group rounded-xl border border-line p-5 transition hover:border-line-strong hover:bg-surface">
+              <Link href={`/blog/${adjacent.previous.slug}/`} className="group rounded-xl border border-line p-5 transition hover:border-line-strong hover:bg-surface">
                 <p className="eyebrow flex items-center gap-1.5">
                   <ArrowLeft className="size-3 transition group-hover:-translate-x-0.5" /> Previous
                 </p>
@@ -110,7 +114,7 @@ export default async function ArticlePage({ params }: Props) {
               <span />
             )}
             {adjacent.next ? (
-              <Link href={`/blog/${adjacent.next.slug}`} className="group rounded-xl border border-line p-5 text-right transition hover:border-line-strong hover:bg-surface">
+              <Link href={`/blog/${adjacent.next.slug}/`} className="group rounded-xl border border-line p-5 text-right transition hover:border-line-strong hover:bg-surface">
                 <p className="eyebrow flex items-center justify-end gap-1.5">
                   Next article <ArrowRight className="size-3 transition group-hover:translate-x-0.5" />
                 </p>
@@ -119,9 +123,11 @@ export default async function ArticlePage({ params }: Props) {
             ) : null}
           </nav>
 
-          <div className="mt-20">
-            <Comments postId={post.id} authorName={post.author.name} />
-          </div>
+          {commentsOn ? (
+            <div className="mt-20">
+              <Comments config={comments} />
+            </div>
+          ) : null}
         </div>
       </div>
 

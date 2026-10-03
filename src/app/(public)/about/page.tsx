@@ -11,32 +11,27 @@ import { LocalClock } from "@/components/widgets/local-clock";
 import { RandomFact } from "@/components/widgets/random-fact";
 import { SpotifyWidget } from "@/components/widgets/spotify-widget";
 import { ToolsOrbit } from "@/components/widgets/tools-orbit";
-import { db } from "@/lib/db/client";
 import { listAwards, listEducation, listExperience, listSkills } from "@/lib/repositories/portfolio";
-import { listBooks, listFacts, listGoals, listInterests, listLearning, listTimeline, listWidgets } from "@/lib/repositories/personal";
-import { getSettings } from "@/lib/settings";
+import { getWidgets, listBooks, listFacts, listGoals, listInterests, listLearning, listTimeline } from "@/lib/repositories/personal";
+import { getSite } from "@/lib/site";
 import { formatDate, formatRange, lines } from "@/lib/utils";
 
-export const revalidate = 60;
 export const metadata: Metadata = { title: "About", description: "The longer story — education, research, work, and what I'm learning now.", alternates: { canonical: "/about" } };
 
-export default async function AboutPage() {
-  const [settings, timeline, education, experience, awards, skills, learning, facts, books, interests, goals, widgets, portrait] = await Promise.all([
-    getSettings(),
-    listTimeline(),
-    listEducation(),
-    listExperience(),
-    listAwards(),
-    listSkills(),
-    listLearning(),
-    listFacts(),
-    listBooks(),
-    listInterests(),
-    listGoals(),
-    listWidgets(),
-    db.media.findFirst({ where: { folder: "PROFILE" }, orderBy: { createdAt: "desc" } }),
-  ]);
-  const enabled = (key: string) => widgets.find((w) => w.key === key)?.enabled ?? true;
+export default function AboutPage() {
+  const site = getSite();
+  const timeline = listTimeline();
+  const education = listEducation();
+  const experience = listExperience();
+  const awards = listAwards();
+  const skills = listSkills();
+  const learning = listLearning();
+  const facts = listFacts();
+  const books = listBooks();
+  const interests = listInterests();
+  const goals = listGoals();
+  const widgets = getWidgets();
+  const portrait = site.portrait;
   const favorites = skills.filter((s) => s.favorite).map((s) => ({ name: s.name, usedFor: s.usedFor, projects: s._count.projects }));
   const researchInterests = [...new Set(skills.filter((s) => s.category === "RESEARCH").map((s) => s.name))];
 
@@ -47,30 +42,32 @@ export default async function AboutPage() {
         <div>
           <p className="eyebrow">About</p>
           <h1 className="mt-5 text-balance text-4xl font-medium leading-[1.05] tracking-[-0.04em] sm:text-6xl">
-            Hi, I&apos;m {settings["site.name"].split(" ")[0]}.
+            Hi, I&apos;m {site.name.split(" ")[0]}.
             <span className="block text-muted">I learn by building.</span>
           </h1>
-          {settings["about.intro"] ? <Markdown source={settings["about.intro"]} className="mt-10 max-w-2xl text-[1.3rem] leading-relaxed [&_p]:text-fg-2" /> : null}
+          {site.aboutIntro ? <Markdown source={site.aboutIntro} className="mt-10 max-w-2xl text-[1.3rem] leading-relaxed [&_p]:text-fg-2" /> : null}
         </div>
         <div className="space-y-4">
           {portrait ? (
             <div className="relative aspect-square overflow-hidden rounded-2xl border border-line">
-              <Image src={portrait.path} alt={portrait.alt} fill sizes="352px" className="object-cover" priority />
-              <Badge tone="outline" className="absolute bottom-3 left-3 bg-bg/70 backdrop-blur">
-                placeholder · replace in /admin/media
-              </Badge>
+              <Image src={portrait.src} alt={portrait.alt} fill sizes="352px" className="object-cover" priority />
+              {portrait.isPlaceholder ? (
+                <Badge tone="outline" className="absolute bottom-3 left-3 bg-bg/70 backdrop-blur">
+                  placeholder · replace with your photo
+                </Badge>
+              ) : null}
             </div>
           ) : null}
-          {enabled("clock") ? <LocalClock timezone={settings["location.timezone"]} label={settings["location.label"]} /> : null}
+          {widgets.clock.enabled ? <LocalClock timezone={site.timezone} label={site.location} /> : null}
         </div>
       </header>
 
       {/* Story */}
-      {settings["about.story"] ? (
+      {site.aboutStory ? (
         <section className="container-page mt-28 grid gap-12 lg:grid-cols-[14rem_1fr]">
           <p className="eyebrow lg:pt-2">The story so far</p>
           <Reveal>
-            <Markdown source={settings["about.story"]} className="max-w-2xl" />
+            <Markdown source={site.aboutStory} className="max-w-2xl" />
           </Reveal>
         </section>
       ) : null}
@@ -78,8 +75,8 @@ export default async function AboutPage() {
       {/* Widgets */}
       <section className="container-page mt-28" aria-label="Right now">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {enabled("spotify") ? <SpotifyWidget /> : null}
-          {enabled("random_fact") ? <RandomFact facts={facts.map((f) => f.text)} /> : null}
+          {widgets.spotify?.enabled ? <SpotifyWidget track={widgets.spotify} /> : null}
+          {widgets.randomFact.enabled ? <RandomFact facts={facts.map((f) => f.text)} /> : null}
           <div className="rounded-2xl border border-line bg-surface p-5">
             <p className="eyebrow">Currently learning</p>
             <ul className="mt-4 space-y-3.5">
@@ -99,9 +96,9 @@ export default async function AboutPage() {
               ))}
             </ul>
           </div>
-          {enabled("github") ? (
+          {widgets.github.enabled && widgets.github.username ? (
             <div className="md:col-span-2">
-              <GitHubWidget />
+              <GitHubWidget username={widgets.github.username} />
             </div>
           ) : null}
           {favorites.length ? <ToolsOrbit tools={favorites} /> : null}

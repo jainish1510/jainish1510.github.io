@@ -2,21 +2,15 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Cover } from "@/components/portfolio/cover";
 import { Badge } from "@/components/ui/primitives";
-import type { PostCard } from "@/lib/repositories/posts";
-import { cn, compactNumber, formatDate } from "@/lib/utils";
+import type { PostCard } from "@/lib/store/types";
+import { cn, formatDate } from "@/lib/utils";
 
-export function PostMeta({ post, className }: { post: Pick<PostCard, "publishedAt" | "readingTime" | "_count">; className?: string }) {
+export function PostMeta({ post, className }: { post: Pick<PostCard, "publishedAt" | "readingTime">; className?: string }) {
   return (
     <p className={cn("flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-subtle", className)}>
-      <time dateTime={post.publishedAt?.toISOString()}>{formatDate(post.publishedAt, "short")}</time>
+      <time dateTime={post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined}>{formatDate(post.publishedAt, "short")}</time>
       <span aria-hidden>·</span>
       <span>{post.readingTime} min read</span>
-      {post._count.views ? (
-        <>
-          <span aria-hidden>·</span>
-          <span>{compactNumber(post._count.views)} views</span>
-        </>
-      ) : null}
     </p>
   );
 }

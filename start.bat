@@ -1,5 +1,5 @@
 @echo off
-rem Double-click to start the site on Windows.
+rem Double-click to preview the site on your computer (Windows).
 cd /d "%~dp0"
 where node >nul 2>nul
 if errorlevel 1 (
@@ -12,6 +12,6 @@ if not exist node_modules (
   call npm install
   if errorlevel 1 ( pause & exit /b 1 )
 )
-start "" cmd /c "timeout /t 12 >nul & start http://localhost:3000"
+start "" cmd /c "timeout /t 10 >nul & start http://localhost:3000"
 call npm run dev
 pause

@@ -2,8 +2,9 @@
 
 import { FileText, FlaskConical, FolderGit2, Loader2, Search, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { loadSearchIndex } from "@/lib/search/client";
 import type { SearchDocType, SearchResult } from "@/lib/search/engine";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +23,8 @@ function highlight(text: string, query: string) {
   return text.split(re).map((part, i) => (i % 2 ? <mark key={i} className="rounded bg-accent-soft px-0.5 text-fg">{part}</mark> : part));
 }
 
-export function SearchExperience({ initial }: { initial: string }) {
-  const [q, setQ] = useState(initial);
+export function SearchExperience() {
+  const [q, setQ] = useState(useSearchParams().get("q") ?? "");
   const [type, setType] = useState<SearchDocType | "all">("all");
   const [results, setResults] = useState<SearchResult[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,27 +36,28 @@ export function SearchExperience({ initial }: { initial: string }) {
 
   useEffect(() => {
     const query = q.trim();
-    window.history.replaceState(null, "", query ? `/search?q=${encodeURIComponent(query)}` : "/search");
+    window.history.replaceState(null, "", query ? `/search/?q=${encodeURIComponent(query)}` : "/search/");
     if (query.length < 2) {
       setResults(null);
       return;
     }
     setLoading(true);
-    const controller = new AbortController();
+    let cancelled = false;
     const t = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}${type !== "all" ? `&type=${type}` : ""}`, { signal: controller.signal });
-        setResults(((await res.json()) as { results: SearchResult[] }).results);
+        const index = await loadSearchIndex();
+        if (cancelled) return;
+        setResults(index.search(query, { limit: 20, types: type === "all" ? undefined : [type] }));
         setActive(0);
       } catch {
-        if (!controller.signal.aborted) setResults([]);
+        if (!cancelled) setResults([]);
       } finally {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    }, 150);
+    }, 120);
     return () => {
+      cancelled = true;
       clearTimeout(t);
-      controller.abort();
     };
   }, [q, type]);
 
